@@ -1,0 +1,10 @@
+.link-secondary {
+    color: $light-gray;
+    transition: color .15s ease-in-out;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        color: $gold;
+    }
+}

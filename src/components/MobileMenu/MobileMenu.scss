@@ -3,14 +3,21 @@
 .mobile-menu {
 
     .menu-btn {
+        cursor: pointer;
         font-size: 1.5rem;
     }
 }
 
-.mobile-menu-drawer {
+.mobile-menu-sidebar {
+    text-align: center;
 
-    .mobile-menu-paper {
+    .mobile-menu-sidebar-content {
         background: $dark-brown;
+        padding-top: 50px;
         width: 300px;
+
+        .menu-item {
+            padding: 7px 0;
+        }
     }
 }

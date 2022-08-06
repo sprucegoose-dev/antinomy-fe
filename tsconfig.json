@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src",
     "target": "es5",
     "lib": [
       "dom",
@@ -15,10 +16,19 @@
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "paths": {
+        "@types": [
+            "types",
+        ],
+    },
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "typeRoots": [
+        "node_modules/@types",
+        "types",
+    ],
   },
   "include": [
     "src"
