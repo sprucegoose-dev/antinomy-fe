@@ -1,0 +1,16 @@
+@import '../../styles/variables.scss';
+
+.mobile-menu {
+
+    .menu-btn {
+        font-size: 1.5rem;
+    }
+}
+
+.mobile-menu-drawer {
+
+    .mobile-menu-paper {
+        background: $dark-brown;
+        width: 300px;
+    }
+}
