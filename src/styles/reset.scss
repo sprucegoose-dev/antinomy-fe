@@ -1,6 +1,11 @@
 @import-normalize;
 
+html {
+    font-size: 14px;
+}
+
 body {
+    background: $cream;
     font-size: 14px;
     font-family: 'RobotoSlab', 'Avenir', Helvetica, Arial, sans-serif;;
 }

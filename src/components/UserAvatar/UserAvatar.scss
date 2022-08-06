@@ -1,0 +1,32 @@
+@import '../../styles/variables.scss';
+
+.user-avatar {
+
+    .user-avatar-icon-wrapper {
+        background: $light-gray;
+        border-radius: 50%;
+        display: inline-block;
+        height: 27px;
+        position: relative;
+        transition: all .15s ease-in-out;
+        vertical-align: middle;
+        width: 27px;
+
+        .user-avatar-icon {
+            color: $sage-brown;
+            font-size: 1.1rem;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transition: all .15s ease-in-out;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .user-avatar-label {
+        color: $light-gray;
+        font-size: 1.14rem;
+        margin-left: 7.5px;
+        vertical-align: middle;
+    }
+}
