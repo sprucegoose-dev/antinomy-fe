@@ -41,7 +41,35 @@
         }
 
         .user-avatar {
+            cursor: pointer;
             margin-left: 15px;
+        }
+    }
+}
+
+.user-menu {
+
+    .menu-items-wrapper {
+        margin-top: 6px;
+
+        .menu-items {
+
+            .menu-item {
+                display: flex;
+
+                .menu-item-label {
+                    margin-left: 7.5px;
+                }
+
+                .icon-logout {
+                    transform: scaleX(-1);
+                }
+            }
+
+            .user-avatar {
+                padding: 0 16px 6px;
+                white-space: nowrap;
+            }
         }
     }
 }

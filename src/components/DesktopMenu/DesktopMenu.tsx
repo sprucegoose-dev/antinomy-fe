@@ -1,5 +1,10 @@
+import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Divider, Menu, MenuItem } from '@mui/material';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IMenuItem, MenuItemVisibility } from 'types/menu';
+import { UserAvatarTheme } from '../../types/user-avatar';
 import { UserAvatar } from '../UserAvatar/UserAvatar';
 import './DesktopMenu.scss';
 
@@ -53,7 +58,7 @@ export const menuItems: IMenuItem[] = [
     },
     {
         label: 'Logout',
-        path: '/login',
+        path: '/logout',
         visibility: [LOGGED_IN],
     },
 ];
@@ -78,10 +83,19 @@ export const filterMenuItem = (visibility: MenuItemVisibility[], isLoggedIn: boo
 
 
 export function DesktopMenu(): JSX.Element {
+    const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
 
     const isLoggedIn = true; // TODO: set real value
 
     const filteredMenuItems = menuItems.filter(({ visibility }) => filterMenuItem(visibility, isLoggedIn));
+
+    const openUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setUserMenuAnchor(event.currentTarget);
+    }
+
+    const closeUserMenu = () => {
+        setUserMenuAnchor(null);
+    }
 
     return (
         <div className="desktop-menu">
@@ -90,7 +104,41 @@ export function DesktopMenu(): JSX.Element {
                     {label}
                 </Link>
             )}
-            <UserAvatar />
+            <UserAvatar onClick={openUserMenu} />
+            <Menu
+                anchorEl={userMenuAnchor}
+                className="user-menu"
+                open={Boolean(userMenuAnchor)}
+                onClose={closeUserMenu}
+                onClick={closeUserMenu}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                PaperProps={{
+                    className: 'menu-items-wrapper',
+                }}
+                MenuListProps={{
+                    className: 'menu-items'
+                }}
+            >
+                <UserAvatar label="SpruceGoose" theme={UserAvatarTheme.DARK} />
+                <Divider />
+                <MenuItem className="menu-item">
+                    <Link to="/profile" className="link-tertiary">
+                        <FontAwesomeIcon className="menu-item-icon" icon={faUser}/>
+                        <span className="menu-item-label">
+                            Profile
+                        </span>
+                    </Link>
+                </MenuItem>
+                <MenuItem className="menu-item">
+                    <Link to="/logout" className="link-tertiary">
+                        <FontAwesomeIcon className="menu-item-icon icon-logout" icon={faArrowRightFromBracket}/>
+                        <span className="menu-item-label">
+                            Logout
+                        </span>
+                    </Link>
+                </MenuItem>
+            </Menu>
         </div>
     );
 }

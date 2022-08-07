@@ -2,6 +2,21 @@
 
 .user-avatar {
 
+    &.dark {
+
+        .user-avatar-icon-wrapper {
+            background: $sage-brown;
+
+            .user-avatar-icon {
+                color: $light-gray;
+            }
+        }
+
+        .user-avatar-label {
+            color: $sage-brown;
+        }
+    }
+
     .user-avatar-icon-wrapper {
         background: $light-gray;
         border-radius: 50%;
@@ -26,8 +41,19 @@
 
     .user-avatar-label {
         color: $light-gray;
+        cursor: default;
         font-size: 1.14rem;
         margin-left: 7.5px;
         vertical-align: middle;
+    }
+}
+
+a {
+
+    .user-avatar {
+
+        .user-avatar-label {
+            cursor: pointer;
+        }
     }
 }

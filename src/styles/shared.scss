@@ -8,3 +8,15 @@
         color: $gold;
     }
 }
+
+
+.link-tertiary {
+    color: $sage-brown;
+    transition: color .15s ease-in-out;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        color: $sage-brown;
+    }
+}
