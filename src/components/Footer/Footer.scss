@@ -1,0 +1,28 @@
+@import '../../styles/variables.scss';
+
+.footer {
+    align-self: center;
+    color: $medium-gray-2;
+    max-width: 80%;
+    padding: 25px;
+    text-align: center;
+
+    .copyrights {
+        display: flex;
+        justify-content: center;
+        font-size: .915rem;
+        margin-bottom: 10px;
+
+        > * {
+            align-self: center;
+        }
+
+        .contact-us-link {
+            margin-left: 5px;
+        }
+    }
+
+    .disclaimer {
+        font-size: .715rem;
+    }
+}

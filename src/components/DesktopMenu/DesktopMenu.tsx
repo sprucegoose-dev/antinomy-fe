@@ -85,7 +85,7 @@ export const filterMenuItem = (visibility: MenuItemVisibility[], isLoggedIn: boo
 export function DesktopMenu(): JSX.Element {
     const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
 
-    const isLoggedIn = true; // TODO: set real value
+    const isLoggedIn = false; // TODO: set real value
 
     const filteredMenuItems = menuItems.filter(({ visibility }) => filterMenuItem(visibility, isLoggedIn));
 

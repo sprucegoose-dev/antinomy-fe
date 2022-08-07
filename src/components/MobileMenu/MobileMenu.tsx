@@ -11,7 +11,7 @@ import { UserAvatar } from '../UserAvatar/UserAvatar';
 export function MobileMenu(): JSX.Element {
     const [open, setOpen] = useState(false);
 
-    const isLoggedIn = true; // TODO: set real value
+    const isLoggedIn = false; // TODO: set real value
 
     const filteredMenuItems = menuItems.filter(({ visibility }) => filterMenuItem(visibility, isLoggedIn));
 
