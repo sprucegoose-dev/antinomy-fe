@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ILoginFormErrors } from '../../types/login';
+import { LoginFormType, ILoginFormErrors } from '../../types/login';
 import { ILoginFormProps } from './LoginForm-types';
 import './LoginForm.scss';
 import logo from '../../assets/wc_logo.png';
@@ -13,11 +13,16 @@ const defaultErrors = {
     recaptcha: '',
 };
 
+const {
+    SIGN_IN,
+    SIGN_UP,
+} = LoginFormType;
+
 export function LoginForm(_props: ILoginFormProps): JSX.Element {
-    const isSignUp = true;
+    const [formType, setFormType] = useState(SIGN_IN);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState<ILoginFormErrors>(defaultErrors);
+    const [errors, _setErrors] = useState<ILoginFormErrors>(defaultErrors);
 
     const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
@@ -26,6 +31,10 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
     const onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
+
+    const toggleLoginFormType = () => {
+        setFormType(formType === SIGN_UP ? SIGN_IN : SIGN_UP);
+    }
 
     return (
         <div className="login-form-wrapper">
@@ -78,9 +87,12 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
                     <input
                         className="btn btn-primary btn-block"
                         type="submit"
-                        value={isSignUp ? 'Sign up' : 'Login'}
+                        value={formType === SIGN_UP ? 'Sign up' : 'Login'}
                     />
                 </div>
+                <span className="form-type-toggle" onClick={toggleLoginFormType}>
+                    { formType === SIGN_UP ? 'Already registered? Click here to login.' : 'Sign up' }
+                </span>
             </form>
             <div className="reset-password-wrapper">
                 {/* TODO: pass in email to reset link */}

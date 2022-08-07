@@ -9,6 +9,11 @@
     padding: 25px;
     position: relative;
 
+    .form-type-toggle {
+        cursor: pointer;
+        user-select: none;
+    }
+
     .logo {
         display: inline-block;
         height: auto;

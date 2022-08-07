@@ -4,3 +4,8 @@ export interface ILoginFormErrors {
     password: string;
     recaptcha: string;
 }
+
+export enum LoginFormType {
+    SIGN_IN = 'SIGN_IN',
+    SIGN_UP = 'SIGN UP'
+}
