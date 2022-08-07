@@ -1,0 +1,28 @@
+@import '../../styles/variables.scss';
+
+.login-form-wrapper {
+    background: $dark-brown;
+    border-radius: 4px;
+    color: $light-gray;
+    margin: 25px auto;
+    max-width: 375px;
+    padding: 25px;
+    position: relative;
+
+    .logo {
+        display: inline-block;
+        height: auto;
+        margin-bottom: 5px;
+        max-height: 135px;
+        max-width: 165px;
+        width: auto;
+    }
+
+    .reset-password-wrapper {
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+}

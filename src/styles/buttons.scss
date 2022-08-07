@@ -1,0 +1,134 @@
+.btn {
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1em;
+    font-weight: 700;
+    padding: 10px 12px;
+    text-align: center;
+    background: white;
+    outline: none;
+    font-family: 'RobotoSlab', 'Avenir', Arial, Helvetica, sans-serif;
+    color: $dark-blue;
+
+    &.btn-primary {
+        background: $green;
+        color: white;
+    }
+
+    &.btn-outline {
+        border: 1px solid $light-gray;
+        color: $gray;
+    }
+
+    &.btn-textual {
+        background: none;
+        padding: 0;
+    }
+
+    &.btn-block {
+        width: 100%;
+    }
+
+    &.btn-disabled {
+        background: $light-gray;
+        color: $gray;
+        cursor: default;
+    }
+
+    &.btn-muted {
+        background: $light-gray;
+        color: $medium-dark-gray;
+    }
+
+    &.btn-light {
+        background: $off-white;
+        color: $sage-brown;
+    }
+
+    &.btn-secondary {
+        background: $sage-brown;
+        color: white;
+    }
+
+    &.btn-severe {
+        background: $marshal;
+        color: white;
+    }
+
+    &.btn-round {
+        border-radius: 50%;
+    }
+
+    &.btn-3d {
+        position: relative;
+        top: 0;
+        transition: all 0.1s ease-in-out;
+        box-shadow: 0 3px $dark-green;
+        border: 1px solid transparent;
+        box-sizing: border-box;
+
+        &:hover {
+            top: 2px;
+            box-shadow: 0 1px $dark-green;
+        }
+
+        &.brn-round {
+
+            &:hover {
+                top: 1px;
+            }
+        }
+
+        &.btn-light {
+            box-shadow: 0 3px $sage-brown;
+
+            &:hover {
+                box-shadow: 0 1px $sage-brown;
+            }
+
+            &.btn-round {
+                box-shadow: 0 1.5px $sage-brown;
+
+                &:hover {
+                    box-shadow: 0 .5px $sage-brown;
+                }
+            }
+        }
+
+        &.btn-gray {
+            box-shadow: 0 3px $medium-gray;
+
+            &:hover {
+                box-shadow: 0 1px $medium-gray;
+            }
+        }
+
+        &.btn-secondary {
+            box-shadow: 0 3px $dark-brown;
+
+            &:hover {
+                box-shadow: 0 1px $dark-brown;
+            }
+
+            &.btn-round {
+                box-shadow: 0 1.5px $dark-brown;
+
+                &:hover {
+                    box-shadow: 0 .5px $dark-brown;
+                }
+            }
+        }
+
+        &.btn-muted {
+            box-shadow: 0 3px $medium-gray;
+
+            &:hover {
+                box-shadow: 0 1px $medium-gray;
+            }
+        }
+
+    }
+}
