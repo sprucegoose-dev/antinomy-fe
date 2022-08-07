@@ -18,11 +18,11 @@ const {
     SIGN_UP,
 } = LoginFormType;
 
-export function LoginForm(_props: ILoginFormProps): JSX.Element {
+export function LoginForm(props: ILoginFormProps): JSX.Element {
     const [formType, setFormType] = useState(SIGN_IN);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, _setErrors] = useState<ILoginFormErrors>(defaultErrors);
+    const [errors] = useState<ILoginFormErrors>(defaultErrors);
 
     const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value);
