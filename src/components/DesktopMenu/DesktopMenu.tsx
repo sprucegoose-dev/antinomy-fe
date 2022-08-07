@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import { IMenuItem, MenuItemVisibility } from 'types/menu';
+import { UserAvatar } from '../UserAvatar/UserAvatar';
 import './DesktopMenu.scss';
 
 const {
@@ -56,10 +58,39 @@ export const menuItems: IMenuItem[] = [
     },
 ];
 
+
+export const filterMenuItem = (visibility: MenuItemVisibility[], isLoggedIn: boolean) => {
+
+    if (visibility.includes(ALWAYS)) {
+        return true;
+    }
+
+    if (visibility.includes(LOGGED_IN) && isLoggedIn) {
+        return true;
+    }
+
+    if (visibility.includes(LOGGED_OUT) && !isLoggedIn) {
+        return true;
+    }
+
+    return false;
+};
+
+
 export function DesktopMenu(): JSX.Element {
 
+    const isLoggedIn = true; // TODO: set real value
+
+    const filteredMenuItems = menuItems.filter(({ visibility }) => filterMenuItem(visibility, isLoggedIn));
+
     return (
-        <div className="mobile-menu">
+        <div className="desktop-menu">
+            {filteredMenuItems.map(({ label, path }, index) =>
+                <Link to={path} key={`menu-item-${index}`} className="menu-item link-secondary">
+                    {label}
+                </Link>
+            )}
+            <UserAvatar />
         </div>
     );
 }

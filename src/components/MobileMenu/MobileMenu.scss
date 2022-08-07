@@ -25,3 +25,14 @@
         margin-bottom: 25px;
     }
 }
+
+@media only screen and (min-width: $screen-sm) {
+
+    .mobile-menu {
+        display: none;
+    }
+
+    .mobile-menu-sidebar {
+        display: none;
+    }
+}

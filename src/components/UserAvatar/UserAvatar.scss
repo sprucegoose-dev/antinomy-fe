@@ -7,6 +7,7 @@
         border-radius: 50%;
         display: inline-block;
         height: 27px;
+        overflow: hidden;
         position: relative;
         transition: all .15s ease-in-out;
         vertical-align: middle;
@@ -14,10 +15,10 @@
 
         .user-avatar-icon {
             color: $sage-brown;
-            font-size: 1.1rem;
+            font-size: 1.45rem;
             position: absolute;
             left: 50%;
-            top: 50%;
+            top: 65%;
             transition: all .15s ease-in-out;
             transform: translate(-50%, -50%);
         }
