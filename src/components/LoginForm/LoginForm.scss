@@ -30,4 +30,21 @@
         transform: translateX(-50%);
     }
 
+    .recaptcha-wrapper {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+
+        .form-error {
+
+            &.recaptcha {
+                align-self: flex-start;
+            }
+        }
+
+        &.hidden {
+            display: none;
+        }
+    }
+
 }
