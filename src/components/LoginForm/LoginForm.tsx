@@ -7,6 +7,8 @@ import { LoginFormType, ILoginFormErrors } from '../../types/login';
 import { ILoginFormProps } from './LoginForm-types';
 import './LoginForm.scss';
 import logo from '../../assets/wc_logo.png';
+import UserResource from '../../resources/UserResource';
+import { STATUS_SUCCESS } from '../../services/api-types';
 
 const defaultErrors = {
     email: null,
@@ -30,37 +32,61 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
 
     const isSignUp = formType === SIGN_UP;
 
-    const validateEmail = (email: string) => {
-        return /[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/i.test(email);
+    const validateEmail = (email: string): string | null => {
+        if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/i.test(email)) {
+            return null;
+        }
+
+        return 'Please enter a valid email.';
     };
 
-    const validatePassword = (text: string) => {
+    const validatePassword = (text: string): string | null => {
         const password = String(text).trim();
-        return Boolean((!isSignUp && password.length) || (isSignUp && password.length >= 8));
-    };
 
-    const validateUsername = (text: string) => {
-        const username = String(text).trim();
-        return !isSignUp || (isSignUp && username.length >= 3);
-    };
+        if (Boolean((!isSignUp && password.length) || (isSignUp && password.length >= 8))) {
+            return null;
+        }
 
-    const validateForm = () => {
-        const passwordMsg = isSignUp ? 'Please enter a password at least 8 characters long.' :
+        return isSignUp ? 'Please enter a password at least 8 characters long.' :
             'Please enter a password.';
-        const usernameMsg = 'Please enter a username at least 3 characters long.';
-        const emailMsg = 'Please enter a valid email.';
-        const recaptchaMsg = 'Please click on the above reCaptcha checkbox';
+    };
 
+    const validateUsername = (text: string): string | null  => {
+        const username = String(text).trim();
+
+        if (!isSignUp || (isSignUp && username.length >= 3)) {
+            return null;
+        }
+
+        return 'Please enter a username at least 3 characters long.';
+
+    };
+
+    const validateRecaptcha = (recaptcha: string | null): string | null => {
+        if (isSignUp) {
+
+            if (recaptcha) {
+                return null;
+            }
+
+            return 'Please click on the above reCaptcha checkbox';
+
+        }
+
+        return null;
+    }
+
+    const validateForm = (): boolean => {
         const validationErrors = {
-            email: !validateEmail(email) ? emailMsg : null,
-            password: !validatePassword(password) ? passwordMsg : null,
-            username: !validateUsername(username) ? usernameMsg : null,
-            recaptcha: isSignUp ? (recaptcha ? null : recaptchaMsg) : null,
+            email: validateEmail(email),
+            password: validatePassword(password),
+            username: validateUsername(username),
+            recaptcha: validateRecaptcha(recaptcha),
         };
 
         setErrors(validationErrors);
 
-        return !errors.email && !errors.username && !errors.password && !errors.recaptcha;
+        return !(errors.email && errors.username && errors.password && errors.recaptcha);
     };
 
     const onRecaptchaSuccess = (recaptcha: string | null) => {
@@ -72,12 +98,33 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
         setFormType(isSignUp ? SIGN_IN : SIGN_UP);
     }
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if (!validateForm()) {
             return;
         }
 
-        // const url = `/user/${isSignUp ? 'signUp' : 'login'}`;
+        let payload = {
+            email,
+            username,
+            password,
+            recaptcha,
+        };
+
+        let response;
+
+        if (isSignUp) {
+            response = await UserResource.createUser(payload);
+        } else {
+            response = await UserResource.login(payload);
+        }
+
+        if (response.status === STATUS_SUCCESS) {
+
+            // Store auth details
+            console.log('request was successful');
+
+            // redirect to /rooms or to the redirect URL
+        }
     }
 
     return (
@@ -141,7 +188,6 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
                         </div> : null
                     }
                 </div>
-                {/* TODO: show for sign up only */}
                 <div className={[
                         'form-control-wrapper',
                         'recaptcha-wrapper',

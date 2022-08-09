@@ -1,5 +1,3 @@
-import { LoginFormType } from '../../types/login';
-
 export interface ILoginFormState {
 }
 
