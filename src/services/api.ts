@@ -15,12 +15,12 @@ class Api {
             payload,
         } = options;
 
-        const baseUrl = process.env.API_BASE_URL;
+        const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
         const fetchOptions: any = {
             method,
             headers: {
-                Accept: 'application/json'
+                'Content-Type': 'application/json',
             },
         };
 

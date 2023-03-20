@@ -16,6 +16,7 @@
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "strictNullChecks": false,
     "paths": {
         "@types": [
             "types",
@@ -29,6 +30,7 @@
         "node_modules/@types",
         "types",
     ],
+    "noImplicitAny": false,
   },
   "include": [
     "src"

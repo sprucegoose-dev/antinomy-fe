@@ -7,14 +7,20 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 25px;
+    position: relative;
+    min-height: 40px;
 
     > * {
         align-self: center;
     }
 
     .logo {
+        position: absolute;
+        left: 2.5%;
+        top: 50%;
+        transform: translateY(-50%);
         cursor: pointer;
-        height: 50px;
+        height: 40px;
         width: auto;
     }
 }

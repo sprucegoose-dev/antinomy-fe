@@ -9,4 +9,5 @@ export interface IMenuItem {
     label: string;
     params?: string;
     path: string;
+    callbackName?: string;
 }

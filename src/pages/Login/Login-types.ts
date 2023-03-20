@@ -1,6 +1,6 @@
 
 export interface ILoginStateProps {
-    username: string | null;
+    username: string;
 }
 
 export interface ILoginDispatchProps {

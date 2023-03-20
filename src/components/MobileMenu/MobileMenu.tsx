@@ -7,11 +7,13 @@ import { Drawer } from '@mui/material';
 import { filterMenuItem, menuItems } from '../DesktopMenu/DesktopMenu';
 import { Link } from 'react-router-dom';
 import { UserAvatar } from '../UserAvatar/UserAvatar';
+import { IRootReducer } from '../../store/reducers-types';
+import { useSelector } from 'react-redux';
 
 export function MobileMenu(): JSX.Element {
     const [open, setOpen] = useState(false);
 
-    const isLoggedIn = false; // TODO: set real value
+    const isLoggedIn = Boolean(useSelector<IRootReducer>((state) => state.auth.userId));
 
     const filteredMenuItems = menuItems.filter(({ visibility }) => filterMenuItem(visibility, isLoggedIn));
 

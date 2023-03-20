@@ -16,9 +16,9 @@ export function Footer(): JSX.Element {
                 </Link>
             </div>
             <div className="disclaimer">
-                The War Chest title, logo, concept, rules, unit coin graphics, and card descriptions,
-                are the intellectual property of Alderac Entertainment Group and the game creators,
-                Trevor Benjamin and David Thompson. The visual assets were created by Brigette Indelicato.
+                The Antinomy title, logo, concept, rules, unit coin graphics, and card descriptions,
+                are the intellectual property of Button Shy Games and the game creator,
+                John Baluci.
             </div>
         </div>
     );

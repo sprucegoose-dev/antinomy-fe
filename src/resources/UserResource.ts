@@ -1,10 +1,10 @@
 import api from '../services/api';
 import { Method, requestOptions } from '../services/api-types';
-import { ICreateUserRequest, ILoginRequest } from '../types/user';
+import { ISignUpRequest, ILoginRequest } from '../types/user';
 
 export default class UserResource {
 
-    static async createUser(payload: ICreateUserRequest) {
+    static async signUp(payload: ISignUpRequest) {
         const options = {
             ...requestOptions,
             payload,
@@ -19,7 +19,7 @@ export default class UserResource {
             payload,
         }
 
-        return await api.request(Method.POST, '/user/signUp', options);
+        return await api.request(Method.POST, '/user/login', options);
     }
 
 }

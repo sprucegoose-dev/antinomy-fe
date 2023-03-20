@@ -35,7 +35,7 @@
     &.btn-disabled {
         background: $light-gray;
         color: $gray;
-        cursor: default;
+        cursor: not-allowed;
     }
 
     &.btn-muted {

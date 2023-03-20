@@ -3,10 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Divider, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { IMenuItem, MenuItemVisibility } from 'types/menu';
-import { UserAvatarTheme } from '../../types/user-avatar';
+import { UserAvatarTheme } from 'types/user-avatar';
 import { UserAvatar } from '../UserAvatar/UserAvatar';
 import './DesktopMenu.scss';
+import { IRootReducer } from '../../store/reducers-types';
+import { RESET_AUTH_DETAILS } from '../Auth/Auth-types';
+import { toast } from 'react-toastify';
 
 const {
     ALWAYS,
@@ -16,33 +20,8 @@ const {
 
 export const menuItems: IMenuItem[] = [
     {
-        label: 'Find a game',
+        label: 'Play',
         path: '/rooms',
-        visibility: [ALWAYS],
-    },
-    {
-        label: 'Leaderboard',
-        path: '/leaderbaord',
-        visibility: [ALWAYS],
-    },
-    {
-        label: 'Community',
-        path: '/users',
-        visibility: [ALWAYS],
-    },
-    {
-        label: 'My games',
-        path: '/matches',
-        visibility: [ALWAYS],
-    },
-    {
-        label: 'How to play',
-        path: '/how-to-play',
-        visibility: [ALWAYS],
-    },
-    {
-        label: 'Contact',
-        path: '/contact-us',
         visibility: [ALWAYS],
     },
     {
@@ -52,17 +31,16 @@ export const menuItems: IMenuItem[] = [
     },
     {
         label: 'Sign up',
-        path: '/login',
-        params: 'signUp',
+        path: '/login/signUp',
         visibility: [LOGGED_OUT],
     },
     {
         label: 'Logout',
-        path: '/logout',
+        path: '/login',
         visibility: [LOGGED_IN],
+        callbackName: 'logout',
     },
 ];
-
 
 export const filterMenuItem = (visibility: MenuItemVisibility[], isLoggedIn: boolean) => {
 
@@ -81,26 +59,44 @@ export const filterMenuItem = (visibility: MenuItemVisibility[], isLoggedIn: boo
     return false;
 };
 
-
 export function DesktopMenu(): JSX.Element {
+    const dispatch = useDispatch();
     const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
 
-    const isLoggedIn = false; // TODO: set real value
+    const isLoggedIn = Boolean(useSelector<IRootReducer>((state) => state.auth.userId));
 
     const filteredMenuItems = menuItems.filter(({ visibility }) => filterMenuItem(visibility, isLoggedIn));
 
     const openUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setUserMenuAnchor(event.currentTarget);
-    }
+    };
 
     const closeUserMenu = () => {
         setUserMenuAnchor(null);
+    };
+
+    const logout = () => {
+        dispatch({ type: RESET_AUTH_DETAILS });
+        toast.success('You have logged out successfully');
+    };
+
+    const handleCallback = (callbackName: string) => {
+        switch (callbackName) {
+            case 'logout':
+                logout();
+                break;
+        }
     }
 
     return (
         <div className="desktop-menu">
-            {filteredMenuItems.map(({ label, path }, index) =>
-                <Link to={path} key={`menu-item-${index}`} className="menu-item link-secondary">
+            {filteredMenuItems.map(({ label, path, callbackName }, index) =>
+                <Link
+                    to={path}
+                    key={`menu-item-${index}`}
+                    className="menu-item link-secondary"
+                    onClick={() => { handleCallback(callbackName) }}
+                >
                     {label}
                 </Link>
             )}
@@ -130,13 +126,11 @@ export function DesktopMenu(): JSX.Element {
                         </span>
                     </Link>
                 </MenuItem>
-                <MenuItem className="menu-item">
-                    <Link to="/logout" className="link-tertiary">
-                        <FontAwesomeIcon className="menu-item-icon icon-logout" icon={faArrowRightFromBracket}/>
-                        <span className="menu-item-label">
-                            Logout
-                        </span>
-                    </Link>
+                <MenuItem className="menu-item" onClick={logout}>
+                    <FontAwesomeIcon className="menu-item-icon icon-logout" icon={faArrowRightFromBracket}/>
+                    <span className="menu-item-label">
+                        Logout
+                    </span>
                 </MenuItem>
             </Menu>
         </div>

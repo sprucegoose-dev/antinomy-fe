@@ -9,18 +9,23 @@
     padding: 25px;
     position: relative;
 
+    .form-title {
+        margin: 8px 0 15px;
+    }
+
     .form-type-toggle {
         cursor: pointer;
         user-select: none;
     }
 
     .logo {
-        display: inline-block;
+        display: block;
         height: auto;
         margin-bottom: 5px;
         max-height: 135px;
         max-width: 165px;
         width: auto;
+        margin: 0 auto 5px auto;
     }
 
     .reset-password-wrapper {

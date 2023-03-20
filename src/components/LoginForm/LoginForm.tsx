@@ -1,14 +1,16 @@
 
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+// import ReCAPTCHA from 'react-google-recaptcha';
 
 import { LoginFormType, ILoginFormErrors } from '../../types/login';
 import { ILoginFormProps } from './LoginForm-types';
 import './LoginForm.scss';
-import logo from '../../assets/wc_logo.png';
+import logo from '../../assets/antinomy_logo_w.png';
 import UserResource from '../../resources/UserResource';
-import { STATUS_SUCCESS } from '../../services/api-types';
+import { useDispatch } from 'react-redux';
+import { SET_AUTH_DETAILS } from '../Auth/Auth-types';
 
 const defaultErrors = {
     email: null,
@@ -23,16 +25,40 @@ const {
 } = LoginFormType;
 
 export function LoginForm(_props: ILoginFormProps): JSX.Element {
-    const [formType, setFormType] = useState<LoginFormType>(SIGN_IN);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { signUp } = useParams();
+    const [formType, setFormType] = useState<LoginFormType>(signUp ? SIGN_UP : SIGN_IN);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [username, setUsername] = useState<string>('');
-    const [recaptcha, setRecaptcha] = useState<string | null>('');
+    const [recaptcha, setRecaptcha] = useState<string>('');
     const [errors, setErrors] = useState<ILoginFormErrors>(defaultErrors);
-
     const isSignUp = formType === SIGN_UP;
 
-    const validateEmail = (email: string): string | null => {
+    useEffect(() => {
+        setFormType(signUp ? SIGN_UP : SIGN_IN);
+    }, [signUp]);
+
+    useEffect(() => {
+        if (errors.email && email && validateEmail(email) === null) {
+            setErrors({...errors, email: null});
+        }
+    }, [email]);
+
+    useEffect(() => {
+        if (errors.password && password && validatePassword(password) === null) {
+            setErrors({...errors, password: null});
+        }
+    }, [password]);
+
+    useEffect(() => {
+        if (errors.username && username && validateUsername(username) === null) {
+            setErrors({...errors, username: null});
+        }
+    }, [username]);
+
+    const validateEmail = (email: string): string => {
         if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/i.test(email)) {
             return null;
         }
@@ -40,7 +66,7 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
         return 'Please enter a valid email.';
     };
 
-    const validatePassword = (text: string): string | null => {
+    const validatePassword = (text: string): string => {
         const password = String(text).trim();
 
         if (Boolean((!isSignUp && password.length) || (isSignUp && password.length >= 8))) {
@@ -51,7 +77,7 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
             'Please enter a password.';
     };
 
-    const validateUsername = (text: string): string | null  => {
+    const validateUsername = (text: string): string  => {
         const username = String(text).trim();
 
         if (!isSignUp || (isSignUp && username.length >= 3)) {
@@ -62,7 +88,7 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
 
     };
 
-    const validateRecaptcha = (recaptcha: string | null): string | null => {
+    const validateRecaptcha = (recaptcha: string): string => {
         if (isSignUp) {
 
             if (recaptcha) {
@@ -76,20 +102,21 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
         return null;
     }
 
-    const validateForm = (): boolean => {
+    const formIsValid = (): boolean => {
         const validationErrors = {
             email: validateEmail(email),
             password: validatePassword(password),
             username: validateUsername(username),
-            recaptcha: validateRecaptcha(recaptcha),
+            recaptcha: null,
+            // recaptcha: validateRecaptcha(recaptcha),
         };
 
         setErrors(validationErrors);
 
-        return !(errors.email && errors.username && errors.password && errors.recaptcha);
+        return !errors.email && !errors.username && !errors.password && !errors.recaptcha;
     };
 
-    const onRecaptchaSuccess = (recaptcha: string | null) => {
+    const onRecaptchaSuccess = (recaptcha: string) => {
         setRecaptcha(recaptcha);
         setErrors({...errors, recaptcha: null });
     };
@@ -99,10 +126,7 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
     }
 
     const onSubmit = async () => {
-        if (!validateForm()) {
-            return;
-        }
-
+        let response;
         let payload = {
             email,
             username,
@@ -110,20 +134,32 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
             recaptcha,
         };
 
-        let response;
-
-        if (isSignUp) {
-            response = await UserResource.createUser(payload);
-        } else {
-            response = await UserResource.login(payload);
+        if (!formIsValid()) {
+            return;
         }
 
-        if (response.status === STATUS_SUCCESS) {
+        if (isSignUp) {
+            response = await UserResource.signUp(payload);
+        } else {
+            response = await UserResource.login(payload)
+        }
 
-            // Store auth details
-            console.log('request was successful');
+        const data = await response.json();
 
-            // redirect to /rooms or to the redirect URL
+        if (response.ok) {
+            dispatch({ type: SET_AUTH_DETAILS, ...data });
+            toast.success(`You have ${isSignUp ? 'signed up' : 'logged in'} succesfully`);
+            return navigate('/rooms');
+        } else {
+            switch (data.code) {
+                case 400:
+                case 409:
+                    toast.error(data.message);
+                    break;
+                default:
+                    toast.error(`Error signing ${isSignUp ? 'up' : 'in'}`);
+                    break;
+            }
         }
     }
 
@@ -133,12 +169,12 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
                 <img
                     className="logo"
                     src={logo}
-                    alt="War Chest Logo"
-                    title="War Chest Logo"
+                    alt="Antinomy Logo"
+                    title="Antinomy Logo"
                 />
             </div>
             <div className="form-title">
-                The Unofficial War Chest Online
+                An Unofficial Adaptation
             </div>
             <div className="login-form">
                 <div className="form-control-wrapper">
@@ -181,6 +217,7 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
                         autoComplete="off"
                         onChange={(event) => setPassword(event.target.value)}
                         value={password}
+                        type="password"
                     />
                     {errors.password ?
                         <div className="form-error">
@@ -188,7 +225,7 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
                         </div> : null
                     }
                 </div>
-                <div className={[
+                {/* <div className={[
                         'form-control-wrapper',
                         'recaptcha-wrapper',
                         isSignUp ? '' : 'hidden'
@@ -203,7 +240,7 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
                             {errors.recaptcha}
                         </div> : null
                     }
-                </div>
+                </div> */}
                 <div className="form-control-wrapper">
                     <button
                         className="btn btn-primary btn-block"
@@ -217,12 +254,11 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
                     { formType === SIGN_UP ? 'Already registered? Click here to login.' : 'Sign up' }
                 </span>
             </div>
-            <div className="reset-password-wrapper">
-                {/* TODO: pass in email to reset link */}
+            {/* <div className="reset-password-wrapper">
                 <Link to="/password-reset" className="link-quaternary">
                     Forgot your password?
                 </Link>
-            </div>
+            </div> */}
         </div>
     );
 }
