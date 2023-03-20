@@ -1,18 +1,5 @@
+import { Color, ICard } from "./card";
 import { IPlayer } from "./player";
-
-export enum Suit {
-    FEATHER = 'feather',
-    KEY = 'key',
-    RING = 'ring',
-    SKULL = 'skull',
-}
-
-export enum Color {
-    RED = 'red',
-    PURPLE = 'purple',
-    GREEN = 'green',
-    BLUE = 'blue',
-}
 
 export enum GameState {
     CANCELLED = 'cancelled',
@@ -40,4 +27,5 @@ export interface IGameState {
     state: GameState;
     updatedAt : string;
     winnerId: number;
+    cards: ICard[];
 }

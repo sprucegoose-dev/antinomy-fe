@@ -38,4 +38,13 @@ export default class GameResource {
         return await api.request(Method.POST, `/game/${gameId}/start`, options);
     }
 
+    static async getState(gameId: number) {
+        const options = {
+            ...requestOptions,
+            authorize: true,
+        }
+
+        return await api.request(Method.GET, `/game/${gameId}`, options);
+    }
+
 }
