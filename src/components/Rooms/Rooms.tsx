@@ -18,6 +18,10 @@ export function Rooms(_props: IRoomsProps): JSX.Element {
         fetchActiveGames();
 
         socket.on('onUpdateActiveGames', fetchActiveGames);
+
+        return () => {
+            socket.off('onUpdateActiveGames', fetchActiveGames);
+        }
     }, []);
 
     return (

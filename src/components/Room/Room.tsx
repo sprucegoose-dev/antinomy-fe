@@ -43,6 +43,10 @@ export function Room({
             }
         }
 
+        if (label === GameState.SETUP) {
+            label = 'Selecting starting positions';
+        }
+
         return (
             <span className="game-state-label">
                 {label.slice(0, 1).toUpperCase() + label.slice(1)}
@@ -77,10 +81,8 @@ export function Room({
         }
     }
 
-
     const renderButton = () => {
         if (gameState === GameState.CREATED) {
-
             const awaitingPlayers = players.length < 2;
 
             if (isCreator) {
@@ -105,7 +107,16 @@ export function Room({
                     </button>
                 );
             }
-
+        } else if (userInGame) {
+            return (
+                <button
+                    className="btn btn-primary btn-block"
+                    type="submit"
+                    onClick={() => navigate(`/game/${gameId}`)}
+                >
+                    Rejoin
+                </button>
+            );
         }
 
         return null;

@@ -35,7 +35,7 @@ export default class GameResource {
             authorize: true,
         }
 
-        return await api.request(Method.POST, `/game/${gameId}`, options);
+        return await api.request(Method.POST, `/game/${gameId}/start`, options);
     }
 
 }

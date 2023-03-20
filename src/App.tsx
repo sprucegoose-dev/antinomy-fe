@@ -4,23 +4,28 @@ import { socket } from './socket';
 
 import './styles/styles.scss';
 import { Header } from './components/Header/Header';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from './components/Footer/Footer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
+
     useEffect(() => {
         socket.connect();
     }, []);
 
+    const { pathname } = useLocation();
+
+    const inGame = pathname.includes('game');
+
     return (
         <div className="app">
-            <Header />
+            {inGame ? null : <Header />}
             <div className="content">
                 <Outlet />
             </div>
-            <Footer />
+            {inGame ? null : <Footer />}
             <ToastContainer autoClose={2000} pauseOnFocusLoss={false} />
         </div>
     );
