@@ -17,7 +17,7 @@ export function authReducer(state: IAuthReducer = initialState, action: IAppActi
         case SET_AUTH_DETAILS:
             return {
                 ...state,
-                userId: action.userId,
+                userId: action.id,
                 username: action.username,
                 sessionExp: action.sessionExp,
                 sessionId: action.sessionId,

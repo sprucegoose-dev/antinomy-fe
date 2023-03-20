@@ -9,7 +9,7 @@ import { UserAvatarTheme } from 'types/user-avatar';
 import { UserAvatar } from '../UserAvatar/UserAvatar';
 import './DesktopMenu.scss';
 import { IRootReducer } from '../../store/reducers-types';
-import { RESET_AUTH_DETAILS } from '../Auth/Auth-types';
+import { IAuthReducer, RESET_AUTH_DETAILS } from '../Auth/Auth-types';
 import { toast } from 'react-toastify';
 
 const {
@@ -20,7 +20,7 @@ const {
 
 export const menuItems: IMenuItem[] = [
     {
-        label: 'Play',
+        label: 'Find a game',
         path: '/rooms',
         visibility: [ALWAYS],
     },
@@ -33,12 +33,6 @@ export const menuItems: IMenuItem[] = [
         label: 'Sign up',
         path: '/login/signUp',
         visibility: [LOGGED_OUT],
-    },
-    {
-        label: 'Logout',
-        path: '/login',
-        visibility: [LOGGED_IN],
-        callbackName: 'logout',
     },
 ];
 
@@ -63,7 +57,9 @@ export function DesktopMenu(): JSX.Element {
     const dispatch = useDispatch();
     const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
 
-    const isLoggedIn = Boolean(useSelector<IRootReducer>((state) => state.auth.userId));
+    const auth = useSelector<IRootReducer>((state) => state.auth) as IAuthReducer;
+
+    const isLoggedIn = Boolean(auth.userId);
 
     const filteredMenuItems = menuItems.filter(({ visibility }) => filterMenuItem(visibility, isLoggedIn));
 
@@ -116,7 +112,7 @@ export function DesktopMenu(): JSX.Element {
                     className: 'menu-items'
                 }}
             >
-                <UserAvatar label="SpruceGoose" theme={UserAvatarTheme.DARK} />
+                <UserAvatar label={auth.username} theme={UserAvatarTheme.DARK} />
                 <Divider />
                 <MenuItem className="menu-item">
                     <Link to="/profile" className="link-tertiary">

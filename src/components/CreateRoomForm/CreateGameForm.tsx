@@ -7,15 +7,22 @@ import './CreateGameForm.scss';
 export function CreateGameForm(): JSX.Element {
     const onSubmit = async () => {
         const response = await GameResource.create();
+
+        const data = await response.json();
+
         if (response.ok) {
             toast.success('Game created successfully');
         } else {
-            toast.error('Error creating game');
+            if (data.code === 400) {
+                toast.error(data.message);
+            } else {
+                toast.error('Error creating game');
+            }
         }
     }
 
     return (
-        <div className="create-room-form">
+        <div className="create-game-form">
             <button
                 className="btn btn-primary btn-block"
                 type="submit"

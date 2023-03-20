@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import GameResource from '../../resources/GameResource';
+import { socket } from '../../socket';
 import { CreateGameForm } from '../CreateRoomForm/CreateGameForm';
 import { Room } from '../Room/Room';
 import { IRoomsProps } from './Rooms-types';
@@ -15,16 +16,21 @@ export function Rooms(_props: IRoomsProps): JSX.Element {
         }
 
         fetchActiveGames();
+
+        socket.on('onUpdateActiveGames', fetchActiveGames);
     }, []);
 
     return (
         <div className="rooms">
             <CreateGameForm />
-            {activeGames.map(game =>
-                <Room
-                    gameState={game}
-                />
-            )}
+            <div className="room-list">
+                {activeGames.map(game =>
+                    <Room
+                        key={`room-${game.id}`}
+                        gameState={game}
+                    />
+                )}
+            </div>
         </div>
     );
 }

@@ -22,17 +22,41 @@ export function Room({
     const navigate = useNavigate();
 
     const userInGame = players.find(p => p.userId === auth.userId);
-    const isCreator = creatorId = auth.userId;
+    const isCreator = creatorId === auth.userId;
 
     const renderPlayer = (player: IPlayer) => {
         return (
-            <div className="user">
+            <span className="player" key={player.id}>
                 {player.user.username}
-            </div>
+            </span>
+        );
+    }
+
+    const renderGameStateLabel = (gameState: GameState) => {
+        let label: string = gameState;
+
+        if (label === GameState.CREATED) {
+            label = 'Waiting for opponent';
+
+            if (players.length === 2) {
+                label = 'Waiting to start';
+            }
+        }
+
+        return (
+            <span className="game-state-label">
+                {label.slice(0, 1).toUpperCase() + label.slice(1)}
+            </span>
         );
     }
 
     const joinGame = async () => {
+        if (!auth.userId) {
+            toast.error('Please sign in before joining a game');
+            navigate('/login');
+            return;
+        }
+
         const response = await GameResource.join(gameId);
 
         if (response.ok) {
@@ -89,11 +113,11 @@ export function Room({
 
     return (
         <div className="room">
-            <div className="users">
+            <div className="players">
                 {players.map(renderPlayer)}
             </div>
             <div className="game-state">
-                {gameState}
+                {renderGameStateLabel(gameState)}
             </div>
             {renderButton()}
         </div>

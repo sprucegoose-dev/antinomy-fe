@@ -1,3 +1,46 @@
+@import '../../styles/variables.scss';
+
 .room {
+    background: white;
+    border-radius: 4px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    flex-grow: 1;
+    padding: 25px;
+    max-width: 350px;
+    margin: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .players {
+        display: flex;
+        justify-content: center;
+
+        .player {
+            border: 1px solid $sage-brown;
+            border-radius: 3px;
+            box-sizing: border-box;
+            color: $sage-brown;
+            display: inline-block;
+            margin: 0 10px;
+            padding: 5px 7px;
+            font-weight: bold;
+        }
+    }
+
+    .game-state-label {
+        background: $light-gray;
+        border-radius: 3px;
+        box-sizing: border-box;
+        display: inline-block;
+        margin-top: 15px;
+        padding: 5px 7px;
+    }
+
+    .btn {
+        margin-top: 15px;
+    }
 
 }

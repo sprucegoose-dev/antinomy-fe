@@ -9,13 +9,14 @@ import { Link } from 'react-router-dom';
 import { UserAvatar } from '../UserAvatar/UserAvatar';
 import { IRootReducer } from '../../store/reducers-types';
 import { useSelector } from 'react-redux';
+import { IAuthReducer } from '../Auth/Auth-types';
 
 export function MobileMenu(): JSX.Element {
     const [open, setOpen] = useState(false);
 
-    const isLoggedIn = Boolean(useSelector<IRootReducer>((state) => state.auth.userId));
+    const auth = useSelector<IRootReducer>((state) => state.auth) as IAuthReducer;
 
-    const filteredMenuItems = menuItems.filter(({ visibility }) => filterMenuItem(visibility, isLoggedIn));
+    const filteredMenuItems = menuItems.filter(({ visibility }) => filterMenuItem(visibility, Boolean(auth.userId)));
 
     return (
         <div className="mobile-menu">
@@ -33,8 +34,8 @@ export function MobileMenu(): JSX.Element {
                     className: "mobile-menu-sidebar-content",
                 }}
             >
-                {/* set real  value */}
-                <UserAvatar label="SpruceGoose" linkTo="/profile" />
+
+                <UserAvatar label={auth.username} linkTo="/profile" />
                 {filteredMenuItems.map(({ label, path }, index) =>
                     <Link to={path} key={`menu-item-${index}`} className="menu-item link-secondary">
                         {label}

@@ -1,5 +1,5 @@
 export interface IAuthDetails {
-    userId: number;
+    id: number;
     username: string;
     sessionId: string;
     sessionExp: string;
@@ -17,7 +17,7 @@ export const RESET_AUTH_DETAILS = 'RESET_AUTH_DETAILS';
 
 export interface ISetAuthDetailsAction {
     type: typeof SET_AUTH_DETAILS;
-    userId: number;
+    id: number;
     username: string;
     sessionId: string;
     sessionExp: string;
