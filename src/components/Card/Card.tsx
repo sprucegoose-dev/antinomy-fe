@@ -42,11 +42,11 @@ export function Card({ cardCode }: ICardProps): JSX.Element {
         wizardBottom
     };
 
-    if (!cards[cardCode]) {
-        console.log(cardCode);
-    }
-
     return (
-        <img src={cards[cardCode]} className={`card-img ${cardCode.split(/(?=[A-Z])/).join(' ').toLowerCase()}`} />
+        <img
+            src={cards[cardCode]}
+            className={`card-img ${cardCode.split(/(?=[A-Z])/).join(' ').toLowerCase()}`}
+            draggable="false"
+        />
     );
 }

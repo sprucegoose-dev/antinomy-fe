@@ -5,7 +5,7 @@ import GameResource from '../../resources/GameResource';
 import { socket } from '../../socket';
 import { IRootReducer } from '../../store/reducers-types';
 import { ICard, ICardType } from '../../types/card.interface';
-import { IActionPayload, IGameState } from '../../types/game.interface';
+import { GamePhase, IActionPayload, IGameState } from '../../types/game.interface';
 import { IPlayer, PlayerOrientation } from '../../types/player.interface';
 import { IAuthReducer } from '../Auth/Auth-types';
 import { Card } from '../Card/Card';
@@ -19,6 +19,7 @@ export function Game(_props: IGameProps): JSX.Element {
     const [ gameState, setGameState ] = useState<IGameState>(null);
     const [ actions, setActions ] = useState<IActionPayload[]>([]);
     const [ continuumWidth, setContinuumWidth ] = useState(0);
+    const [ selectedCard, setSelectedCard ] = useState(null);
     const auth = useSelector<IRootReducer>((state) => state.auth) as IAuthReducer;
     const continuumRef = useRef(null);
 
@@ -71,14 +72,28 @@ export function Game(_props: IGameProps): JSX.Element {
         return <Card cardCode={`wizard${capitalize(orientation)}`} />;
     }
 
+    const selectCard = (card: ICard) => {
+        if (selectedCard?.id === card.id) {
+            setSelectedCard(null);
+        } else {
+            setSelectedCard(card);
+        }
+    }
+
     const renderCard = (card: ICard, isHidden: boolean = false) => {
         const isCodexCard = card.index === null && !card.playerId;
         const cardCode = isCodexCard || isHidden ?
             'cardBack' :
             formatCardCode(card.type);
+        const cardActions = actions.find(a => a.sourceCardId === card.id);
+        const isSelected = selectedCard?.id === card.id;
 
         return (
-            <div className="card-wrapper" key={`card-${card.id}`}>
+            <div
+                className={`card-wrapper ${cardActions ? 'is-selectable' : ''} ${isSelected ? 'is-selected' : ''}`}
+                key={`card-${card.id}`}
+                onClick={() => cardActions ? selectCard(card) : null}
+            >
                 <Card cardCode={cardCode} />
                 {isCodexCard ?
                     <span className={`codex-ring ${gameState.codexColor}`} />
@@ -113,7 +128,7 @@ export function Game(_props: IGameProps): JSX.Element {
 
     const renderPlayerArea = (player: IPlayer, cards: ICard[], isOpponent: boolean = false) => {
         return (
-            <div className={`player-area ${player.orientation} ${isOpponent ? 'is-opponent' : ''}`}>
+            <div className={`player-area ${player.orientation} ${isOpponent ? 'opponent' : 'player'}`}>
                 {!isOpponent && renderPlayerLabel(player)}
                 <div className="player-cards">
                     {!isOpponent && !player.position && renderWizardCard(player.orientation)}
@@ -125,12 +140,50 @@ export function Game(_props: IGameProps): JSX.Element {
         );
     }
 
-    const renderWizardPosition = (player: IPlayer, card: ICard) => {
+    const getCardAction = (card: ICard) => {
+        switch (gameState.phase) {
+            case GamePhase.DEPLOYMENT:
+                return actions.find(action => action.targetIndex === card.index);
+            case GamePhase.MOVEMENT:
+                return actions.filter(action =>
+                    action.sourceCardId === selectedCard?.id
+                ).find(action =>
+                    action.targetIndex === card.index
+                );
+        }
+    }
+
+    const sendAction = async (action:  IActionPayload) => {
+        await GameResource.sendAction(gameState.id, action);
+    }
+
+    const renderActionLabel = (gamePhase: GamePhase) => {
+        let label = '';
+
+        switch (gamePhase) {
+            case GamePhase.DEPLOYMENT:
+                label = 'Start here';
+                break;
+        }
+
+        return  (
+            <div className="action-label">
+                {label}
+            </div>
+        );
+    }
+
+    const renderWizardPosition = (player: IPlayer, card: ICard, showActions: boolean = false) => {
         const cardWidth = continuumWidth * .1;
         const cardHeight = cardWidth / CARD_WIDTH_TO_HEIGHT_RATIO;
+        const cardAction = getCardAction(card);
 
         return (
-            <div className="card-wrapper" key={`wizard-position-wrapper-${card.id}`}>
+            <div
+                className={`card-wrapper ${cardAction ? 'is-active' : ''}`}
+                key={`wizard-position-wrapper-${card.id}`}
+                onClick={() => cardAction ? sendAction(cardAction) : null}
+            >
                 <div
                     className="wizard-position"
                     style={{
@@ -139,6 +192,10 @@ export function Game(_props: IGameProps): JSX.Element {
                 >
                     {card.index !== null && player.position === card.index && renderWizardCard(player.orientation)}
                 </div>
+                {showActions && cardAction ?
+                    renderActionLabel(gameState.phase)
+                    : null
+                }
             </div>
         );
     }
@@ -168,17 +225,17 @@ export function Game(_props: IGameProps): JSX.Element {
     continuumCards.unshift(codexCard);
 
     return (
-        <div className="game">
+        <div className={`game ${gameState.phase}`}>
             {renderPlayerArea(opponent, opponentCards, true)}
             <div className="board">
-                <div className="wizard-positions">
+                <div className="wizard-positions opponent">
                     {continuumCards.map((card) => renderWizardPosition(opponent, card))}
                 </div>
                 <div className="continuum-cards" ref={continuumRef}>
                     {continuumCards.map((card) => renderCard(card))}
                 </div>
-                <div className="wizard-positions">
-                    {continuumCards.map((card) => renderWizardPosition(player, card))}
+                <div className="wizard-positions player">
+                    {continuumCards.map((card) => renderWizardPosition(player, card, true))}
                 </div>
             </div>
             {renderPlayerArea(player, playerCards)}

@@ -1,5 +1,15 @@
 @import '../../styles/variables.scss';
 
+@keyframes animated-border {
+    from {
+        box-shadow: 0 0 4.5px 4.5px rgba(112, 203, 171, 0.4);
+    }
+
+    to {
+        box-shadow: 0 0 5px 5px rgba(104, 177, 152, 0.4);
+    }
+}
+
 .game {
     display: flex;
     flex-direction: column;
@@ -10,17 +20,71 @@
     padding: 5% 0;
 
     .card-img {
-        pointer-events: none;
         user-select: none;
         height: auto;
         width: auto;
         display: block;
     }
 
+    .player-area {
+
+        &.player {
+            .card-wrapper {
+                position: relative;
+
+                &.is-selectable {
+
+                    .card-img {
+                        cursor: pointer;
+                        box-shadow: 0 0 5px 5px rgba(104, 177, 152, 0.5);
+                        border-radius: 2px;
+                        box-sizing: border-box;
+                    }
+                }
+
+                &.is-selected {
+
+                    .card-img {
+                        cursor: pointer;
+                        box-shadow: 0 0 5px 5px rgba(237, 143, 34, 0.65);
+                        border-radius: 2px;
+                        box-sizing: border-box;
+                    }
+                }
+            }
+        }
+
+    }
+
     .wizard-positions {
 
-        .card-wrapper {
+        &.opponent {
+            margin-bottom: 10px;
+        }
 
+        &.player {
+            margin-top: 10px;
+
+            .card-wrapper {
+                position: relative;
+
+                &.is-active {
+                    cursor: pointer;
+                    box-shadow: 0 0 5px 5px rgba(104, 177, 152, 0.5);
+                    border-radius: 2px;
+                    box-sizing: border-box;
+                }
+
+                .action-label {
+                    color: $green;
+                    font-size: 75%;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    position: absolute;
+                    white-space: nowrap;
+                }
+            }
         }
     }
 
@@ -106,13 +170,15 @@
 
         .card-img {
             max-width: 75px;
+            margin: 0 7.5px;
 
             &.wizard {
+                margin-left: 0;
                 margin-right: 15px;
             }
         }
 
-        &.is-opponent {
+        &.opponent {
 
             .player-label {
                 align-self: flex-start;
