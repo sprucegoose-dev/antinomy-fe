@@ -58,20 +58,37 @@
 
     .wizard-positions {
 
+        .card-wrapper {
+            position: relative;
+
+            .wizard-position {
+                display: flex;
+
+                .card-img {
+                    max-width: 92%;
+                    margin: 0 auto;
+                }
+            }
+        }
+
         &.opponent {
             margin-bottom: 10px;
+
+            .card-wrapper {
+
+                .card-img {
+                    align-self: flex-end;
+                }
+            }
         }
 
         &.player {
             margin-top: 10px;
 
             .card-wrapper {
-                position: relative;
-
 
                 .card-img {
-                    max-width: 92%;
-                    margin: 0 auto;
+                    align-self: flex-start;
                 }
 
                 &.is-active {
@@ -90,7 +107,6 @@
                         border-radius: 2px;
                         box-sizing: border-box;
                     }
-
                 }
 
                 .action-label {
