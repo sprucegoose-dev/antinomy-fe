@@ -15,8 +15,8 @@ import red2Skull from '../../assets/cards/red_2_skull.png';
 import red3Ring from '../../assets/cards/red_3_ring.png';
 import red4Feather from '../../assets/cards/red_4_feather.png';
 import cardBack from '../../assets/cards/card_back.png';
-import wizardTop from '../../assets/cards/wizard_bottom.png';
-import wizardBottom from '../../assets/cards/wizard_top.png';
+import wizardDefault from '../../assets/cards/wizard_default.png';
+import wizardInverse from '../../assets/cards/wizard_inverse.png';
 import { ICardProps } from './Card-types';
 
 export function Card({ cardCode }: ICardProps): JSX.Element {
@@ -38,8 +38,8 @@ export function Card({ cardCode }: ICardProps): JSX.Element {
         red3Ring,
         red4Feather,
         cardBack,
-        wizardTop,
-        wizardBottom
+        wizardDefault,
+        wizardInverse
     };
 
     return (

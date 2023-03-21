@@ -46,8 +46,6 @@ export function Game(_props: IGameProps): JSX.Element {
         getGameState();
         getActions();
 
-        setContinuumWidth(continuumRef.current?.offsetWidth ?? 0);
-
         window.addEventListener('resize', onWindowReize);
 
         socket.emit('onJoinGame', gameId);
@@ -59,6 +57,12 @@ export function Game(_props: IGameProps): JSX.Element {
             socket.off('onUpdateGameState', getUpdatedGameState);
         }
     }, []);
+
+    useEffect(() => {
+        if (continuumRef.current && continuumWidth !== continuumRef.current?.offsetWidth) {
+            setContinuumWidth(continuumRef.current.offsetWidth);
+        }
+    }, [gameState]);
 
     const capitalize = (text: string) => {
         return text.charAt(0).toUpperCase() + text.slice(1);
@@ -142,6 +146,7 @@ export function Game(_props: IGameProps): JSX.Element {
 
     const getCardAction = (card: ICard) => {
         switch (gameState.phase) {
+            case GamePhase.REPLACEMENT:
             case GamePhase.DEPLOYMENT:
                 return actions.find(action => action.targetIndex === card.index);
             case GamePhase.MOVEMENT:
@@ -163,6 +168,9 @@ export function Game(_props: IGameProps): JSX.Element {
         switch (gamePhase) {
             case GamePhase.DEPLOYMENT:
                 label = 'Start here';
+                break;
+            case GamePhase.REPLACEMENT:
+                label = 'Swap';
                 break;
         }
 
@@ -223,6 +231,10 @@ export function Game(_props: IGameProps): JSX.Element {
     const opponentCards = cards.filter(c => c.playerId && c.playerId !== opponent.id) ?? [];
 
     continuumCards.unshift(codexCard);
+
+    if (player.orientation === PlayerOrientation.INVERSE) {
+        continuumCards.reverse();
+    }
 
     return (
         <div className={`game ${gameState.phase}`}>

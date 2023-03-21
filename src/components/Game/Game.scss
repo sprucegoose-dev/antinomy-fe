@@ -68,11 +68,29 @@
             .card-wrapper {
                 position: relative;
 
+
+                .card-img {
+                    max-width: 92%;
+                    margin: 0 auto;
+                }
+
                 &.is-active {
                     cursor: pointer;
-                    box-shadow: 0 0 5px 5px rgba(104, 177, 152, 0.5);
-                    border-radius: 2px;
-                    box-sizing: border-box;
+
+                    &:before {
+                        content: '';
+                        display: block;
+                        width: 92%;
+                        height: 92%;
+                        position: absolute;
+                        top: 0;
+                        left: 50%;
+                        transform: translateX(-50%);;
+                        box-shadow: 0 0 5px 5px rgba(104, 177, 152, 0.5);
+                        border-radius: 2px;
+                        box-sizing: border-box;
+                    }
+
                 }
 
                 .action-label {
@@ -82,7 +100,7 @@
                     top: 50%;
                     transform: translate(-50%, -50%);
                     position: absolute;
-                    white-space: nowrap;
+                    text-align: center;
                 }
             }
         }
@@ -195,7 +213,7 @@
             }
         }
 
-        &.bottom {
+        &.inverse {
 
             .player-label {
                 border: 1px solid $orange-wizard;
@@ -203,7 +221,7 @@
             }
         }
 
-        &.top {
+        &.default {
 
             .player-label {
                 border: 1px solid $red-wizard;
@@ -229,6 +247,23 @@
 
             .card-img {
                 max-width: 85px;
+            }
+        }
+
+        .wizard-positions {
+
+            &.opponent {
+                margin-bottom: 10px;
+            }
+
+            &.player {
+
+                .card-wrapper {
+
+                    .action-label {
+                        font-size: 85%;
+                    }
+                }
             }
         }
     }

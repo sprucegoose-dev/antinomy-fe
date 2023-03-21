@@ -1,8 +1,8 @@
 import { IUser } from "./user.interface";
 
 export enum PlayerOrientation {
-    TOP = 'top',
-    BOTTOM = 'top',
+    DEFAULT = 'default',
+    INVERSE = 'inverse',
 }
 
 export interface IPlayer {
