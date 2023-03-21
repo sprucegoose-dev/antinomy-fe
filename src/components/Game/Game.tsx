@@ -254,7 +254,7 @@ export function Game(_props: IGameProps): JSX.Element {
             {renderPlayerArea(player, playerCards)}
             {
                 gameState.state === GameState.ENDED && winner &&
-                    <div className="victory-modal">
+                    <div className={`victory-modal ${winner.id === player.id ? 'victory' : 'defeat'}`}>
                         <div className="title">
                             {winner.id === player.id ? 'Victory!' : 'Defeat!'}
                         </div>

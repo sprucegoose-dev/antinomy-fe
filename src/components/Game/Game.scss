@@ -261,13 +261,25 @@
         top: 50%;
         text-align: center;
         padding: 0px 10px;
-        min-width: 300px;
+        min-height: 100px;
+        min-width: 200px;
         transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        &.defeat {
+
+            .title {
+                color: $red;
+            }
+        }
 
         .title {
-            border-bottom: 1px solid $green;
+            color: $green;
             font-weight: bold;
             padding: 10px 20px;
+            font-size: 1.1rem;
         }
 
         .content {
