@@ -19,7 +19,7 @@ import wizardTop from '../../assets/cards/wizard_bottom.png';
 import wizardBottom from '../../assets/cards/wizard_top.png';
 import { ICardProps } from './Card-types';
 
-export function Card({ typeCode }: ICardProps): JSX.Element {
+export function Card({ cardCode }: ICardProps): JSX.Element {
     const cards = {
         blue1Skull,
         blue2Ring,
@@ -42,11 +42,11 @@ export function Card({ typeCode }: ICardProps): JSX.Element {
         wizardBottom
     };
 
-    if (!cards[typeCode]) {
-        console.log(typeCode);
+    if (!cards[cardCode]) {
+        console.log(cardCode);
     }
 
     return (
-        <img src={cards[typeCode]} className="card" />
+        <img src={cards[cardCode]} className="card" />
     );
 }

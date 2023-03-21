@@ -4,12 +4,14 @@
     flex-grow: 1;
     justify-content: center;
     height: 100%;
+    box-sizing: border-box;
 
-    .cards {
+    .continuum-cards {
         text-align: center;
         padding: 0 2.5%;
         box-sizing: border-box;
         display: flex;
+        margin: 100px 0;
 
         .card-wrapper {
             position: relative;
@@ -49,5 +51,21 @@
                 }
             }
         }
+    }
+
+    .player-cards {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+
+        .card-wrapper {
+
+            .card {
+                height: auto;
+                max-width: 100px;
+                width: auto;
+            }
+        }
+
     }
 }
