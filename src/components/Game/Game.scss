@@ -1,22 +1,44 @@
+@import '../../styles/variables.scss';
+
 .game {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: center;
+    justify-content: space-between;
     height: 100%;
     box-sizing: border-box;
+    padding: 5% 0;
 
-    .continuum-cards {
-        text-align: center;
-        padding: 0 2.5%;
-        box-sizing: border-box;
-        display: flex;
-        margin: 100px 0;
+    .card-img {
+        pointer-events: none;
+        user-select: none;
+        height: auto;
+        width: auto;
+        display: block;
+    }
+
+    .wizard-positions {
 
         .card-wrapper {
-            position: relative;
 
-            .card {
+        }
+    }
+
+    .wizard-positions,
+    .continuum-cards {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        max-width: 72%;
+        margin: 0 auto;
+
+        .card-wrapper {
+            flex-grow: 1;
+            position: relative;
+            max-width: 10%;
+            box-sizing: border-box;
+
+            .card-img {
                 height: auto;
                 max-width: 100%;
                 width: auto;
@@ -32,7 +54,7 @@
 
                 &.blue {
                     left: 12%;
-                    top: 18.3%;
+                    top: 19%;
                 }
 
                 &.red {
@@ -42,7 +64,7 @@
 
                 &.green {
                     right: 12%;
-                    top: 18.3%;
+                    top: 19%;
                 }
 
                 &.purple {
@@ -53,19 +75,95 @@
         }
     }
 
+    .player-area {
+        display: flex;
+        justify-content: center;
+
+        .player-label {
+            align-self: flex-end;
+            background: rgba(255, 255, 255, .5);
+            border-radius: 4px;
+            display: flex;
+            margin-right: 15px;
+            padding: 4px 5px;
+
+            .divider {
+                padding: 0 5px;
+            }
+
+            .turn-indicator {
+                align-self: center;
+                background: $medium-gray;
+                border-radius: 50%;
+                height: 10px;
+                width: 10px;
+
+                &.active {
+                    background: $green;
+                }
+            }
+        }
+
+        .card-img {
+            max-width: 75px;
+
+            &.wizard {
+                margin-right: 15px;
+            }
+        }
+
+        &.is-opponent {
+
+            .player-label {
+                align-self: flex-start;
+                margin-right: 0;
+                margin-left: 15px;
+            }
+
+            .card-img {
+
+                &.wizard {
+                    margin-right: 0;
+                    margin-left: 15px;
+                }
+            }
+        }
+
+        &.bottom {
+
+            .player-label {
+                border: 1px solid $orange-wizard;
+                color: $orange-wizard;
+            }
+        }
+
+        &.top {
+
+            .player-label {
+                border: 1px solid $red-wizard;
+                color: $red-wizard;
+            }
+
+        }
+    }
+
     .player-cards {
         text-align: center;
         display: flex;
         justify-content: center;
+    }
+}
 
-        .card-wrapper {
+@media only screen and (min-width: $screen-sm) {
 
-            .card {
-                height: auto;
-                max-width: 100px;
-                width: auto;
+    .game {
+        padding: 1.5% 0;
+
+        .player-area {
+
+            .card-img {
+                max-width: 85px;
             }
         }
-
     }
 }

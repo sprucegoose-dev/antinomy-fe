@@ -1,7 +1,7 @@
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import { UserAvatarTheme } from '../../types/user-avatar';
+import { UserAvatarTheme } from '../../types/user-avatar.interface';
 import { IUserAvatarProps } from './UserAvatar-types';
 import './UserAvatar.scss';
 

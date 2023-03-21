@@ -47,4 +47,13 @@ export default class GameResource {
         return await api.request(Method.GET, `/game/${gameId}`, options);
     }
 
+    static async getActions(gameId: number) {
+        const options = {
+            ...requestOptions,
+            authorize: true,
+        }
+
+        return await api.request(Method.GET, `/game/${gameId}/actions`, options);
+    }
+
 }

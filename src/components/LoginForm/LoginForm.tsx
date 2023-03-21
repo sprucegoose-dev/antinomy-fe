@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 // import ReCAPTCHA from 'react-google-recaptcha';
 
-import { LoginFormType, ILoginFormErrors } from '../../types/login';
+import { LoginFormType, ILoginFormErrors } from '../../types/login.interface';
 import { ILoginFormProps } from './LoginForm-types';
 import './LoginForm.scss';
 import logo from '../../assets/antinomy_logo_w.png';

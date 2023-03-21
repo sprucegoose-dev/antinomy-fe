@@ -1,6 +1,6 @@
 import api from '../services/api';
 import { Method, requestOptions } from '../services/api-types';
-import { ISignUpRequest, ILoginRequest } from '../types/user';
+import { ISignUpRequest, ILoginRequest } from '../types/user.interface';
 
 export default class UserResource {
 

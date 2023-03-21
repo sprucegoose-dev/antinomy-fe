@@ -1,5 +1,5 @@
-import { GameState, IGameState } from '../../types/game';
-import { IUser } from '../../types/user';
+import { GameState, IGameState } from '../../types/game.interface';
+import { IUser } from '../../types/user.interface';
 
 export interface IRoomState {
 }

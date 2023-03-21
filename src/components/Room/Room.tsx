@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { IRootReducer } from '../../store/reducers-types';
 import { IAuthReducer } from '../Auth/Auth-types';
 import { IRoomProps } from './Room-types';
-import { GameState } from '../../types/game';
+import { GameState } from '../../types/game.interface';
 import GameResource from '../../resources/GameResource';
 import './Room.scss';
 import { toast } from 'react-toastify';
-import { IPlayer } from '../../types/player';
+import { IPlayer } from '../../types/player.interface';
 
 export function Room({
     gameState: {

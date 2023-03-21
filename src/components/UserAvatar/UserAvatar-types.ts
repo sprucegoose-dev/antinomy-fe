@@ -1,4 +1,4 @@
-import { UserAvatarTheme } from '../../types/user-avatar';
+import { UserAvatarTheme } from '../../types/user-avatar.interface';
 
 export interface IUserAvatarState {
 }
