@@ -5,7 +5,7 @@ import GameResource from '../../resources/GameResource';
 import { socket } from '../../socket';
 import { IRootReducer } from '../../store/reducers-types';
 import { ICard, ICardType } from '../../types/card.interface';
-import { GamePhase, IActionPayload, IGameState } from '../../types/game.interface';
+import { GamePhase, GameState, IActionPayload, IGameState } from '../../types/game.interface';
 import { IPlayer, PlayerOrientation } from '../../types/player.interface';
 import { IAuthReducer } from '../Auth/Auth-types';
 import { Card } from '../Card/Card';
@@ -229,6 +229,7 @@ export function Game(_props: IGameProps): JSX.Element {
     const opponent = players.find(p => p.userId !== auth.userId);
     const playerCards = cards.filter(c => c.playerId === player.id) ?? [];
     const opponentCards = cards.filter(c => c.playerId && c.playerId !== opponent.id) ?? [];
+    const winner = players.find(p => p.userId === gameState.winnerId);
 
     continuumCards.unshift(codexCard);
 
@@ -251,6 +252,17 @@ export function Game(_props: IGameProps): JSX.Element {
                 </div>
             </div>
             {renderPlayerArea(player, playerCards)}
+            {
+                gameState.state === GameState.ENDED && winner &&
+                    <div className="victory-modal">
+                        <div className="title">
+                            {winner.id === player.id ? 'Victory!' : 'Defeat!'}
+                        </div>
+                        <div className="content">
+                            {winner.user.username} has won the match.
+                        </div>
+                    </div>
+            }
         </div>
     );
 }

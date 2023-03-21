@@ -141,7 +141,7 @@
 
                 &.red {
                     left: 12%;
-                    bottom: 22.1%;
+                    bottom: 20.5%;
                 }
 
                 &.green {
@@ -151,7 +151,7 @@
 
                 &.purple {
                     right: 12%;
-                    bottom: 22.1%;
+                    bottom: 20.5%;
                 }
             }
         }
@@ -235,6 +235,28 @@
         text-align: center;
         display: flex;
         justify-content: center;
+    }
+
+    .victory-modal {
+        background: white;
+        box-shadow: -4px 4px 4px rgba(53, 53, 53, 0.4);
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        text-align: center;
+        padding: 0px 10px;
+        min-width: 300px;
+        transform: translate(-50%, -50%);
+
+        .title {
+            border-bottom: 1px solid $green;
+            font-weight: bold;
+            padding: 10px 20px;
+        }
+
+        .content {
+            padding: 10px 20px;
+        }
     }
 }
 
