@@ -7,11 +7,47 @@
 
     .cards {
         text-align: center;
+        padding: 0 2.5%;
+        box-sizing: border-box;
+        display: flex;
 
-        .card {
-            height: auto;
-            max-width: 120px;
-            width: auto;
+        .card-wrapper {
+            position: relative;
+
+            .card {
+                height: auto;
+                max-width: 100%;
+                width: auto;
+            }
+
+            .codex-ring {
+                position: absolute;
+                width: 36.5%;
+                height: 26.5%;
+                border: 1px solid white;
+                border-radius: 50%;
+                box-sizing: border-box;
+
+                &.blue {
+                    left: 12%;
+                    top: 18.3%;
+                }
+
+                &.red {
+                    left: 12%;
+                    bottom: 22.1%;
+                }
+
+                &.green {
+                    right: 12%;
+                    top: 18.3%;
+                }
+
+                &.purple {
+                    right: 12%;
+                    bottom: 22.1%;
+                }
+            }
         }
     }
 }

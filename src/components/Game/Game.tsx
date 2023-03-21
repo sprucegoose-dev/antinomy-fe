@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import GameResource from '../../resources/GameResource';
 import { socket } from '../../socket';
-import { ICard } from '../../types/card';
+import { ICard, ICardType } from '../../types/card';
 import { IGameState } from '../../types/game';
 import { Card } from '../Card/Card';
 import { IGameProps } from './Game-types';
@@ -27,23 +27,38 @@ export function Game(_props: IGameProps): JSX.Element {
         }
     }, []);
 
-    const renderCard = (card: ICard) => {
-        const type = card.type;
-        const typeCode = card.index === null ?
-            'cardBack' :
-            `${type.color}${type.value}${type.suit.charAt(0).toUpperCase() + type.suit.slice(1)}`;
+    const formatCardCode = (type: ICardType): string => {
+        return `${type.color}${type.value}${type.suit.charAt(0).toUpperCase() + type.suit.slice(1)}`;
+    }
 
-        return <Card typeCode={typeCode} key={`card-${card.id}`} />
+    const renderContinuumCard = (card: ICard) => {
+        const isCodexCard = card.index === null ;
+        const typeCode = isCodexCard ?
+            'cardBack' :
+            formatCardCode(card.type);
+
+        return (
+            <div className="card-wrapper">
+                <Card
+                    typeCode={typeCode}
+                    key={`card-${card.id}`}
+                />
+                {isCodexCard ?
+                    <span className={`codex-ring ${gameState.codexColor}`} />
+                    : null
+                }
+            </div>
+        );
     };
 
     const continuumCards = gameState?.cards
-    .filter(c => !c.playerId)
-    .sort((cardA, cardB) => cardA.index === null ? -1 : cardA.index - cardB.index) ?? [];
+        .filter(c => !c.playerId)
+        .sort((cardA, cardB) => cardA.index === null ? -1 : cardA.index - cardB.index) ?? [];
 
     return (
         <div className="game">
             <div className="cards">
-                {continuumCards.map(renderCard)}
+                {continuumCards.map(renderContinuumCard)}
             </div>
         </div>
     );
