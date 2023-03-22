@@ -1,4 +1,4 @@
-import { faArrowRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Divider, Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
@@ -119,14 +119,6 @@ export function DesktopMenu(): JSX.Element {
             >
                 <UserAvatar label={auth.username} theme={UserAvatarTheme.DARK} />
                 <Divider />
-                <MenuItem className="menu-item">
-                    <Link to="/profile" className="link-tertiary">
-                        <FontAwesomeIcon className="menu-item-icon" icon={faUser}/>
-                        <span className="menu-item-label">
-                            Profile
-                        </span>
-                    </Link>
-                </MenuItem>
                 <MenuItem className="menu-item" onClick={logout}>
                     <FontAwesomeIcon className="menu-item-icon icon-logout" icon={faArrowRightFromBracket}/>
                     <span className="menu-item-label">

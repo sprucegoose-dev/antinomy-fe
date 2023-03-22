@@ -35,7 +35,7 @@ export function MobileMenu(): JSX.Element {
                 }}
             >
 
-                <UserAvatar label={auth.username} linkTo="/profile" />
+                <UserAvatar label={auth.username} />
                 {filteredMenuItems.map(({ label, path }, index) =>
                     <Link to={path} key={`menu-item-${index}`} className="menu-item link-secondary">
                         {label}

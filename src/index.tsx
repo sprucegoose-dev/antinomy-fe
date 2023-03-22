@@ -31,7 +31,6 @@ root.render(
                             <Route path="login" element={<Login />} />
                             <Route path="rooms" element={<Rooms />} />
                             <Route path="rules" element={<Rules />} />
-                            <Route path="profile" element={<Rooms />} />
                             <Route path="game/:id" element={<Game />} />
                             <Route path="/" element={<Home />} />
                         </Route>

@@ -10,23 +10,27 @@
     padding: 5% 0;
     position: relative;
 
-    .logo-wrapper {
-        display: flex;
+    .back-btn-wrapper {
         position: absolute;
         left: 25px;
         top: 15px;
-
-        > * {
-            align-self: center;
-        }
 
         .back-btn {
             color: black;
             font-size: 1.5rem;
         }
+    }
+
+    .logo-wrapper {
+        position: absolute;
+        right: 15px;
+        bottom: 20px;
+
+        > * {
+            align-self: center;
+        }
 
         .logo {
-            margin-left: 10px;
             height: 30px;
             width: auto;
         }
@@ -125,7 +129,7 @@
 
                 .action-label {
                     color: $green;
-                    font-size: 75%;
+                    font-size: .85rem;
                     left: 50%;
                     top: 50%;
                     transform: translate(-50%, -50%);
@@ -191,31 +195,6 @@
         display: flex;
         justify-content: center;
 
-        .player-label {
-            align-self: flex-end;
-            background: rgba(255, 255, 255, .5);
-            border-radius: 4px;
-            display: flex;
-            margin-right: 15px;
-            padding: 4px 5px;
-
-            .divider {
-                padding: 0 5px;
-            }
-
-            .turn-indicator {
-                align-self: center;
-                background: $medium-gray;
-                border-radius: 50%;
-                height: 10px;
-                width: 10px;
-
-                &.active {
-                    background: $green;
-                }
-            }
-        }
-
         .card-img {
             max-width: 75px;
             margin: 0 7.5px;
@@ -226,12 +205,63 @@
             }
         }
 
-        &.opponent {
+        .player-cards {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            position: relative;
 
             .player-label {
-                align-self: flex-start;
-                margin-right: 0;
-                margin-left: 15px;
+                background: rgba(255, 255, 255, .5);
+                border-radius: 4px;
+                border: 1px solid $red-wizard;
+                bottom: 120%;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                position: absolute;
+                min-width: 125px;
+
+                .info-group {
+                    border-right: 1px solid $red-wizard;
+                    flex-grow: 1;
+
+                    > * {
+                        padding: 5px;
+                    }
+
+                    .horizontal-divider {
+                        border-bottom: 1px solid $red-wizard;
+                        padding: 0;
+                    }
+                }
+
+                .turn-indicator-wrapper {
+                    align-self: center;
+                    padding: 5px 10px;
+
+                    .turn-indicator {
+                        background: $medium-gray;
+                        border-radius: 50%;
+                        height: 10px;
+                        width: 10px;
+
+                        &.active {
+                            background: $green;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.opponent {
+
+            .player-cards {
+
+                .player-label {
+                    bottom: auto;
+                    top: 120%;
+                }
             }
 
             .card-img {
@@ -254,17 +284,9 @@
         &.default {
 
             .player-label {
-                border: 1px solid $red-wizard;
                 color: $red-wizard;
             }
-
         }
-    }
-
-    .player-cards {
-        text-align: center;
-        display: flex;
-        justify-content: center;
     }
 
     .victory-modal {
@@ -314,6 +336,30 @@
 
         .player-area {
 
+            .player-cards {
+
+                .player-label {
+                    transform: none;
+                    left: auto;
+                    bottom: 0;
+                    right: 105%;
+                }
+            }
+
+            &.opponent {
+
+                .player-cards {
+
+                    .player-label {
+                        transform: none;
+                        left: 105%;
+                        bottom: auto;
+                        top: 0;
+                        right: auto;
+                    }
+                }
+            }
+
             .card-img {
                 max-width: 85px;
             }
@@ -334,6 +380,10 @@
                     }
                 }
             }
+        }
+
+        .logo-wrapper {
+            right: 20px;
         }
     }
 }

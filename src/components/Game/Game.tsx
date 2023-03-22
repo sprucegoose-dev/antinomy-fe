@@ -13,6 +13,7 @@ import { IGameProps } from './Game-types';
 import './Game.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro' ;
+import logo from '../../assets/antinomy_logo_b.png';
 
 const CARD_WIDTH_TO_HEIGHT_RATIO = 0.7374301676;
 
@@ -58,13 +59,13 @@ export function Game(_props: IGameProps): JSX.Element {
             socket.emit('onLeaveGame', gameId);
             socket.off('onUpdateGameState', getUpdatedGameState);
         }
-    }, []);
+    }, [gameId]);
 
     useEffect(() => {
         if (continuumRef.current && continuumWidth !== continuumRef.current?.offsetWidth) {
             setContinuumWidth(continuumRef.current.offsetWidth);
         }
-    }, [gameState]);
+    }, [gameState, continuumWidth]);
 
     const capitalize = (text: string) => {
         return text.charAt(0).toUpperCase() + text.slice(1);
@@ -114,19 +115,18 @@ export function Game(_props: IGameProps): JSX.Element {
 
         return (
             <div className="player-label">
-                <div className="label">
-                    {player.user.username}
+                <div className="info-group">
+                    <div className="label">
+                        {player.user.username}
+                    </div>
+                    <div className="horizontal-divider"></div>
+                    <div className="score">
+                        Score: {player.points}
+                    </div>
                 </div>
-                <div className="divider">
-                    |
-                </div>
-                <div className="score">
-                    Score: {player.points}
-                </div>
-                <div className="divider">
-                    |
-                </div>
-                <div className={`turn-indicator ${isActivePlayer ? 'active' : 'inactive'}`}>
+                <div className="turn-indicator-wrapper">
+                    <div className={`turn-indicator ${isActivePlayer ? 'active' : 'inactive'}`}>
+                    </div>
                 </div>
             </div>
         );
@@ -135,13 +135,13 @@ export function Game(_props: IGameProps): JSX.Element {
     const renderPlayerArea = (player: IPlayer, cards: ICard[], isOpponent: boolean = false) => {
         return (
             <div className={`player-area ${player.orientation} ${isOpponent ? 'opponent' : 'player'}`}>
-                {!isOpponent && renderPlayerLabel(player)}
                 <div className="player-cards">
+                    {!isOpponent && renderPlayerLabel(player)}
                     {!isOpponent && !player.position && renderWizardCard(player.orientation)}
                     {cards.map((card) => renderCard(card, isOpponent))}
                     {isOpponent && !player.position && renderWizardCard(player.orientation)}
+                    {isOpponent && renderPlayerLabel(player)}
                 </div>
-                {isOpponent && renderPlayerLabel(player)}
             </div>
         );
     }
@@ -173,6 +173,9 @@ export function Game(_props: IGameProps): JSX.Element {
                 break;
             case GamePhase.REPLACEMENT:
                 label = 'Swap';
+                break;
+            case GamePhase.MOVEMENT:
+                label = 'Move';
                 break;
         }
 
@@ -241,7 +244,7 @@ export function Game(_props: IGameProps): JSX.Element {
 
     return (
         <div className={`game ${gameState.phase}`}>
-            <div className="logo-wrapper">
+            <div className="back-btn-wrapper">
                 <Link to="/rooms" className="back-btn">
                     <FontAwesomeIcon icon={solid('arrow-left')} />
                 </Link>
@@ -270,6 +273,14 @@ export function Game(_props: IGameProps): JSX.Element {
                         </div>
                     </div>
             }
+            <div className="logo-wrapper">
+                <img
+                    className="logo"
+                    src={logo}
+                    alt="Antinomy Logo"
+                    title="Antinomy Logo"
+                />
+            </div>
         </div>
     );
 }

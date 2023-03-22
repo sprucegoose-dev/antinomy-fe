@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export function Home(): JSX.Element {
     return (
         <div className="home">
-            <div className="logo">
+            <div className="logo-wrapper">
                 <img
                     className="logo"
                     src={logo}
@@ -22,7 +22,7 @@ export function Home(): JSX.Element {
                 </p>
                 <p>
                     The game was designed by John Baluci and published
-                        by <a href="https://buttonshygames.com/" target="_blank" className="link-primary">Button Shy Games</a> in 2019.
+                        by <a href="https://buttonshygames.com/" target="_blank" className="link-primary" rel="noreferrer">Button Shy Games</a> in 2019.
                 </p>
                 <p>
                     <strong>Antinomy Online</strong> is an unofficial fan-made adaptation of the game.

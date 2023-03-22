@@ -30,7 +30,7 @@ export function Room({
         if (prevGameState === GameState.CREATED && gameState === GameState.SETUP) {
             navigate(`/game/${gameId}`);
         }
-    }, [gameState])
+    }, [gameState, gameId, navigate, prevGameState])
 
     const renderPlayer = (player: IPlayer) => {
         return (
