@@ -1,6 +1,9 @@
-# Getting Started with Create React App
+# Antinomy - A Digital Adaptation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a digital adaptation of the card game [Antinomy](https://boardgamegeek.com/boardgame/251441/antinomy), which was designed by John Baluci 
+ and published by [Button Shy Games](https://buttonshygames.com) in 2019.
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). 
 
 ## Prerequisites
 
