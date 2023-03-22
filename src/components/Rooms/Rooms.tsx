@@ -12,7 +12,10 @@ export function Rooms(_props: IRoomsProps): JSX.Element {
     useEffect(() => {
         const fetchActiveGames = async () => {
             const response = await GameResource.getActiveGames();
-            setActiveGames(await response.json());
+
+            if (response.ok) {
+                setActiveGames(await response.json());
+            }
         }
 
         fetchActiveGames();

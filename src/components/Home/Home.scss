@@ -1,12 +1,13 @@
 @import '../../styles/variables.scss';
 
 .home {
+    box-sizing: border-box;
+    line-height: 1.5;
+    margin: 0 auto;
+    max-width: 500px;
+    padding: 25px;
     text-align: center;
     width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 25px;
-    line-height: 1.5;
 
     .logo {
         display: block;
