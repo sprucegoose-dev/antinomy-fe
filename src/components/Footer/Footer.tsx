@@ -16,7 +16,7 @@ export function Footer(): JSX.Element {
                 </Link>
             </div>
             <div className="disclaimer">
-                The Antinomy title, logo, concept, rules, unit coin graphics, and card descriptions,
+                The Antinomy title, logo, concept, rules, and card graphics,
                 are the intellectual property of Button Shy Games and the game creator,
                 John Baluci.
             </div>

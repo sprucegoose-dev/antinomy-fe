@@ -45,7 +45,7 @@ export function Rules(): JSX.Element {
                     </li>
                     <li>
                         Use the <b>color</b> or <b>suit</b> (symbol) of your card to move your Sorcerer to
-                         the <b>left</b> to any card card with a matching <b>color</b>/<b>suit</b> (backward in time)
+                         the <b>left</b> to any card card with a matching <b>color</b>/<b>suit</b> (backward in time).
                     </li>
                     <li>
                         Swap the card from your hand with the card from the Contiuum at your Sorcrer's final position.
