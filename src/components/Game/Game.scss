@@ -11,13 +11,36 @@
 }
 
 .game {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: space-between;
     height: 100%;
-    box-sizing: border-box;
+    justify-content: space-between;
     padding: 5% 0;
+    position: relative;
+
+    .logo-wrapper {
+        display: flex;
+        position: absolute;
+        left: 25px;
+        top: 15px;
+
+        > * {
+            align-self: center;
+        }
+
+        .back-btn {
+            color: black;
+            font-size: 1.5rem;
+        }
+
+        .logo {
+            margin-left: 10px;
+            height: 30px;
+            width: auto;
+        }
+    }
 
     .card-img {
         user-select: none;
@@ -127,7 +150,7 @@
         box-sizing: border-box;
         display: flex;
         justify-content: center;
-        max-width: 72%;
+        max-width: 90%;
         margin: 0 auto;
 
         .card-wrapper {
@@ -292,6 +315,11 @@
 
     .game {
         padding: 1.5% 0;
+
+        .wizard-positions,
+        .continuum-cards {
+            max-width: 72%;
+        }
 
         .player-area {
 

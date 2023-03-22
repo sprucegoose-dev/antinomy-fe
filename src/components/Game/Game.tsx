@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import GameResource from '../../resources/GameResource';
 import { socket } from '../../socket';
 import { IRootReducer } from '../../store/reducers-types';
@@ -10,7 +10,10 @@ import { IPlayer, PlayerOrientation } from '../../types/player.interface';
 import { IAuthReducer } from '../Auth/Auth-types';
 import { Card } from '../Card/Card';
 import { IGameProps } from './Game-types';
+import logo from '../../assets/antinomy_logo_b.png';
 import './Game.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro' ;
 
 const CARD_WIDTH_TO_HEIGHT_RATIO = 0.7374301676;
 
@@ -239,6 +242,17 @@ export function Game(_props: IGameProps): JSX.Element {
 
     return (
         <div className={`game ${gameState.phase}`}>
+            <div className="logo-wrapper">
+                <Link to="/rooms" className="back-btn">
+                    <FontAwesomeIcon icon={solid('arrow-left')} />
+                </Link>
+                {/* <img
+                    className="logo"
+                    src={logo}
+                    alt="Antinomy Logo"
+                    title="Antinomy Logo"
+                /> */}
+            </div>
             {renderPlayerArea(opponent, opponentCards, true)}
             <div className="board">
                 <div className="wizard-positions opponent">
