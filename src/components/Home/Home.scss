@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+
+.home {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 25px;
+    line-height: 1.5;
+
+    .logo {
+        display: block;
+        height: auto;
+        width: auto;
+        max-width: 175px;
+        margin: 0 auto;
+    }
+
+    .screenshot-wrapper {
+        box-shadow: 0 1px 3px 2px $light-gray;
+        background: white;
+        margin-bottom: 25px;
+        padding: 10px;
+
+        img {
+            max-width: 100%;
+        }
+    }
+}

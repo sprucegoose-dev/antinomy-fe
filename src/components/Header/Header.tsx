@@ -11,7 +11,7 @@ export function Header(): JSX.Element {
 
     return (
         <div className="header">
-            <Link className="logo-wrapper" to={`${isLoggedIn ? 'rooms' : '/'}`}>
+            <Link className="logo-wrapper" to="/">
                 <img
                     className="logo"
                     src={logo}

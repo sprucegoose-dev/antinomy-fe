@@ -13,6 +13,8 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Rooms } from './components/Rooms/Rooms';
 import { Game } from './components/Game/Game';
+import { Home } from './components/Home/Home';
+import { Rules } from './components/Rules/Rules';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -28,8 +30,10 @@ root.render(
                             <Route path="login/:signUp" element={<Login />} />
                             <Route path="login" element={<Login />} />
                             <Route path="rooms" element={<Rooms />} />
+                            <Route path="rules" element={<Rules />} />
                             <Route path="profile" element={<Rooms />} />
                             <Route path="game/:id" element={<Game />} />
+                            <Route path="/" element={<Home />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>

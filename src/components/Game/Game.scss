@@ -1,15 +1,5 @@
 @import '../../styles/variables.scss';
 
-@keyframes animated-border {
-    from {
-        box-shadow: 0 0 4.5px 4.5px rgba(112, 203, 171, 0.4);
-    }
-
-    to {
-        box-shadow: 0 0 5px 5px rgba(104, 177, 152, 0.4);
-    }
-}
-
 .game {
     box-sizing: border-box;
     display: flex;
@@ -100,6 +90,7 @@
             .card-wrapper {
 
                 .card-img {
+                    transform: scaleY(-1);
                     align-self: flex-end;
                 }
             }

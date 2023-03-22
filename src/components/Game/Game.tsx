@@ -10,7 +10,6 @@ import { IPlayer, PlayerOrientation } from '../../types/player.interface';
 import { IAuthReducer } from '../Auth/Auth-types';
 import { Card } from '../Card/Card';
 import { IGameProps } from './Game-types';
-import logo from '../../assets/antinomy_logo_b.png';
 import './Game.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro' ;
@@ -246,12 +245,6 @@ export function Game(_props: IGameProps): JSX.Element {
                 <Link to="/rooms" className="back-btn">
                     <FontAwesomeIcon icon={solid('arrow-left')} />
                 </Link>
-                {/* <img
-                    className="logo"
-                    src={logo}
-                    alt="Antinomy Logo"
-                    title="Antinomy Logo"
-                /> */}
             </div>
             {renderPlayerArea(opponent, opponentCards, true)}
             <div className="board">

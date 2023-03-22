@@ -25,6 +25,11 @@ export const menuItems: IMenuItem[] = [
         visibility: [ALWAYS],
     },
     {
+        label: 'How to play',
+        path: '/rules',
+        visibility: [ALWAYS],
+    },
+    {
         label: 'Login',
         path: '/login',
         visibility: [LOGGED_OUT],

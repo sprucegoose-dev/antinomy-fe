@@ -1,0 +1,31 @@
+@import '../../styles/variables.scss';
+
+.rules {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 25px;
+    line-height: 1.5;
+
+    .title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-top: 15px;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-top: 15px;
+        color: $player-label;
+    }
+
+    .content {
+        text-align: left;
+
+        li {
+            margin-top: 10px;
+        }
+    }
+}
