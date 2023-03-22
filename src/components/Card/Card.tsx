@@ -46,6 +46,7 @@ export function Card({ cardCode }: ICardProps): JSX.Element {
         <img
             src={cards[cardCode]}
             className={`card-img ${cardCode.split(/(?=[A-Z])/).join(' ').toLowerCase()}`}
+            alt="Card"
             draggable="false"
         />
     );

@@ -114,7 +114,20 @@ export function Room({
                 >
                     Leave
                 </button>
-            )
+            );
+
+            if (gameState !== GameState.CREATED) {
+                buttons.push(
+                    <button
+                        className="btn btn-primary btn-block"
+                        type="submit"
+                        onClick={() => navigate(`/game/${gameId}`)}
+                        key="rejoin-btn"
+                    >
+                        Rejoin
+                    </button>
+                )
+            }
         }
 
         if (gameState === GameState.CREATED) {
@@ -143,17 +156,6 @@ export function Room({
                     </button>
                 )
             }
-        } else {
-            buttons.push(
-                <button
-                    className="btn btn-primary btn-block"
-                    type="submit"
-                    onClick={() => navigate(`/game/${gameId}`)}
-                    key="rejoin-btn"
-                >
-                    Rejoin
-                </button>
-            )
         }
 
         if (buttons.length === 2) {
