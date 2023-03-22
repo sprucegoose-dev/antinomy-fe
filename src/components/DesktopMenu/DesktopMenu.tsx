@@ -101,7 +101,7 @@ export function DesktopMenu(): JSX.Element {
                     {label}
                 </Link>
             )}
-            <UserAvatar onClick={openUserMenu} />
+            <UserAvatar onClick={(event) => isLoggedIn ? openUserMenu(event) : null} />
             <Menu
                 anchorEl={userMenuAnchor}
                 className="user-menu"

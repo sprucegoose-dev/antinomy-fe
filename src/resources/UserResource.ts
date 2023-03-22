@@ -22,4 +22,13 @@ export default class UserResource {
         return await api.request(Method.POST, '/user/login', options);
     }
 
+    static async getDetails() {
+        const options = {
+            ...requestOptions,
+            authorize: true,
+        }
+
+        return await api.request(Method.GET, '/user', options);
+    }
+
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './App.scss';
 import { socket } from './socket';
 
@@ -8,12 +8,31 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from './components/Footer/Footer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserResource from './resources/UserResource';
+import { useDispatch, useSelector } from 'react-redux';
+import { IRootReducer } from './store/reducers-types';
+import { IAuthReducer, RESET_AUTH_DETAILS } from './components/Auth/Auth-types';
 
 function App() {
+    const auth = useSelector<IRootReducer>((state) => state.auth) as IAuthReducer;
+    const dispatch = useDispatch();
 
     useEffect(() => {
         socket.connect();
-    }, []);
+
+        const validateLoginState = async () => {
+            const response = await (await UserResource.getDetails()).json();
+
+            if (response.code === 401) {
+                dispatch({ type: RESET_AUTH_DETAILS });
+            }
+        }
+
+        if (auth.userId) {
+            console.log('got here');
+            validateLoginState();
+        }
+    }, [auth, dispatch]);
 
     const { pathname } = useLocation();
 

@@ -2,7 +2,6 @@ export interface ISignUpRequest {
     email: string;
     username: string;
     password: string;
-    recaptcha: string;
 }
 
 export interface ILoginRequest {

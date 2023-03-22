@@ -2,7 +2,6 @@ export interface ILoginFormErrors {
     email: string;
     username: string;
     password: string;
-    recaptcha: string;
 }
 
 export enum LoginFormType {
