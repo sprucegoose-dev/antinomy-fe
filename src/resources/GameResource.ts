@@ -12,6 +12,15 @@ export default class GameResource {
         return await api.request(Method.GET, '/game/all', options);
     }
 
+    static async leave(gameId: number) {
+        const options = {
+            ...requestOptions,
+            authorize: true,
+        };
+
+        return await api.request(Method.POST, `/game/${gameId}/leave`, options);
+    }
+
     static async join(gameId: number) {
         const options = {
             ...requestOptions,

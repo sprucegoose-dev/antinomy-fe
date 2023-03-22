@@ -9,6 +9,7 @@ import GameResource from '../../resources/GameResource';
 import './Room.scss';
 import { toast } from 'react-toastify';
 import { IPlayer } from '../../types/player.interface';
+import { useEffect, useState } from 'react';
 
 export function Room({
     gameState: {
@@ -23,6 +24,13 @@ export function Room({
 
     const userInGame = players.find(p => p.userId === auth.userId);
     const isCreator = creatorId === auth.userId;
+    const [prevGameState] = useState(gameState);
+
+    useEffect(() => {
+        if (prevGameState === GameState.CREATED && gameState === GameState.SETUP) {
+            navigate(`/game/${gameId}`);
+        }
+    }, [gameState])
 
     const renderPlayer = (player: IPlayer) => {
         return (
@@ -54,6 +62,18 @@ export function Room({
         );
     }
 
+    const leaveGame = async () => {
+        const response = await GameResource.leave(gameId);
+
+        navigate('/rooms');
+
+        if (response.ok) {
+            toast.success('Left game successfully');
+        } else {
+            toast.error('Error leaving game');
+        }
+    }
+
     const joinGame = async () => {
         if (!auth.userId) {
             toast.error('Please sign in before joining a game');
@@ -64,7 +84,7 @@ export function Room({
         const response = await GameResource.join(gameId);
 
         if (response.ok) {
-            toast.success('Joined game successully');
+            toast.success('Joined game successfully');
         } else {
             toast.error('Error joining game');
         }
@@ -74,52 +94,77 @@ export function Room({
         const response = await GameResource.start(gameId);
 
         if (response.ok) {
-            toast.success('Game started successully');
-            navigate(`game/${gameId}`);
+            toast.success('Game started successfully');
         } else {
             toast.error('Error starting game');
         }
     }
 
     const renderButton = () => {
+        const awaitingPlayers = players.length < 2;
+        const buttons = [];
+
+        if (userInGame) {
+            buttons.push(
+                <button
+                    className="btn btn-outline btn-block"
+                    type="submit"
+                    onClick={leaveGame}
+                    key="leave-btn"
+                >
+                    Leave
+                </button>
+            )
+        }
+
         if (gameState === GameState.CREATED) {
-            const awaitingPlayers = players.length < 2;
 
             if (isCreator) {
-                return (
+                buttons.push(
                     <button
                         className={`btn btn-primary btn-block ${awaitingPlayers ? 'btn-disabled' : ''}`}
                         type="submit"
                         onClick={startGame}
                         disabled={awaitingPlayers}
+                        key="start-btn"
                     >
                         Start
                     </button>
                 );
-            } else if (!userInGame && awaitingPlayers) {
-                return (
+            } else if (awaitingPlayers) {
+                buttons.push(
                     <button
                         className="btn btn-primary btn-block"
                         type="submit"
                         onClick={joinGame}
+                        key="join-btn"
                     >
                         Join
                     </button>
-                );
+                )
             }
-        } else if (userInGame) {
-            return (
+        } else {
+            buttons.push(
                 <button
                     className="btn btn-primary btn-block"
                     type="submit"
                     onClick={() => navigate(`/game/${gameId}`)}
+                    key="rejoin-btn"
                 >
                     Rejoin
                 </button>
-            );
+            )
         }
 
-        return null;
+        if (buttons.length === 2) {
+            return (
+                <div className="btn-group">
+                    {buttons.map(btn => btn)}
+                </div>
+            )
+        }
+
+        return buttons.map(btn => btn);
     }
 
     return (

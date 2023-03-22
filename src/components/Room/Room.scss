@@ -19,9 +19,6 @@
         justify-content: center;
 
         .player {
-            border: 1px solid $sage-brown;
-            border-radius: 3px;
-            box-sizing: border-box;
             color: $sage-brown;
             display: inline-block;
             margin: 0 10px;
@@ -41,6 +38,21 @@
 
     .btn {
         margin-top: 15px;
+    }
+
+    .btn-group {
+        display: flex;
+
+        .btn {
+
+            &:first-of-type {
+                margin-right: 10px;
+            }
+
+            &:last-of-type {
+                margin-left: 10px;
+            }
+        }
     }
 
 }
