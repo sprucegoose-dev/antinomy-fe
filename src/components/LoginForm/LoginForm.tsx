@@ -134,6 +134,7 @@ export function LoginForm(_props: ILoginFormProps): JSX.Element {
         } else {
             switch (data.code) {
                 case 400:
+                case 404:
                 case 409:
                     toast.error(data.message);
                     break;

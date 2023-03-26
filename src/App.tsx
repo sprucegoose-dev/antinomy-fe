@@ -29,7 +29,6 @@ function App() {
         }
 
         if (auth.userId) {
-            console.log('got here');
             validateLoginState();
         }
     }, [auth, dispatch]);

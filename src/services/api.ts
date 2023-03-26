@@ -15,7 +15,9 @@ class Api {
             payload,
         } = options;
 
-        const baseUrl = process.env.REACT_APP_API_BASE_URL;
+        const baseUrl = process.env.NODE_ENV === 'production' ?
+            `${process.env.REACT_APP_BASE_API_URL_PROD}/api` :
+            process.env.REACT_APP_BASE_API_URL_DEV;
 
         const fetchOptions: any = {
             method,
@@ -34,8 +36,6 @@ class Api {
         }
 
         const response = await fetch(`${baseUrl}${url}`, fetchOptions);
-
-        // handle 401
 
         return response;
     }

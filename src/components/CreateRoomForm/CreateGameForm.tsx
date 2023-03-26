@@ -13,7 +13,9 @@ export function CreateGameForm(): JSX.Element {
         if (response.ok) {
             toast.success('Game created successfully');
         } else {
-            if (data.code === 400) {
+            if (data.code === 401) {
+                toast.error('You must be signed in to create a game.');
+            } else if (data.code === 400) {
                 toast.error(data.message);
             } else {
                 toast.error('Error creating game');
