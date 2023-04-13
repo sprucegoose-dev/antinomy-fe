@@ -23,6 +23,7 @@ export function Game(_props: IGameProps): JSX.Element {
     const [ actions, setActions ] = useState<IActionPayload[]>([]);
     const [ continuumWidth, setContinuumWidth ] = useState(0);
     const [ selectedCard, setSelectedCard ] = useState(null);
+    const [ submitting, setSubmitting ] = useState(false);
     const auth = useSelector<IRootReducer>((state) => state.auth) as IAuthReducer;
     const continuumRef = useRef(null);
 
@@ -161,7 +162,19 @@ export function Game(_props: IGameProps): JSX.Element {
     }
 
     const sendAction = async (action:  IActionPayload) => {
-        await GameResource.sendAction(gameState.id, action);
+        if (submitting) {
+            return;
+        }
+
+        setSubmitting(true);
+
+        try {
+            await GameResource.sendAction(gameState.id, action);
+        } catch {
+            setSubmitting(false);
+        }
+
+        setSubmitting(false);
     }
 
     const renderActionLabel = (gamePhase: GamePhase) => {
