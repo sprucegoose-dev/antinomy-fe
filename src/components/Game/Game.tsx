@@ -138,9 +138,9 @@ export function Game(_props: IGameProps): JSX.Element {
             <div className={`player-area ${player.orientation} ${isOpponent ? 'opponent' : 'player'}`}>
                 <div className="player-cards">
                     {!isOpponent && renderPlayerLabel(player)}
-                    {!isOpponent && !player.position && renderWizardCard(player.orientation)}
+                    {!isOpponent && player.position === null && renderWizardCard(player.orientation)}
                     {cards.map((card) => renderCard(card, isOpponent))}
-                    {isOpponent && !player.position && renderWizardCard(player.orientation)}
+                    {isOpponent && player.position === null && renderWizardCard(player.orientation)}
                     {isOpponent && renderPlayerLabel(player)}
                 </div>
             </div>
