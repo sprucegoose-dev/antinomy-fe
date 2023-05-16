@@ -19,7 +19,7 @@ import wizardDefault from '../../assets/cards/wizard_default.png';
 import wizardInverse from '../../assets/cards/wizard_inverse.png';
 import { ICardProps } from './Card-types';
 
-export function Card({ cardCode }: ICardProps): JSX.Element {
+export function Card({ cardCode, transition = null}: ICardProps): JSX.Element {
     const cards = {
         blue1Skull,
         blue2Ring,
@@ -42,9 +42,18 @@ export function Card({ cardCode }: ICardProps): JSX.Element {
         wizardInverse
     };
 
+    let customStyles = {};
+
+    if (transition) {
+        customStyles = {
+            left: `${transition}px`,
+        };
+    }
+
     return (
         <img
             src={cards[cardCode]}
+            style={customStyles}
             className={`card-img ${cardCode.split(/(?=[A-Z])/).join(' ').toLowerCase()}`}
             alt="Card"
             draggable="false"

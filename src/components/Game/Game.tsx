@@ -24,6 +24,7 @@ export function Game(_props: IGameProps): JSX.Element {
     const [ continuumWidth, setContinuumWidth ] = useState(0);
     const [ selectedCard, setSelectedCard ] = useState(null);
     const [ submitting, setSubmitting ] = useState(false);
+    const [ wizardTransition, setWizardTransition ] = useState(0);
     const auth = useSelector<IRootReducer>((state) => state.auth) as IAuthReducer;
     const continuumRef = useRef(null);
 
@@ -34,7 +35,29 @@ export function Game(_props: IGameProps): JSX.Element {
     useEffect(() => {
         const getGameState = async () => {
             const response = await GameResource.getState(parseInt(gameId, 10));
-            setGameState(await response.json());
+            const nextGameState = await response.json();
+            let timeout = 0;
+
+            if (gameState && nextGameState) {
+                timeout = 1000;
+                const activePlayerId = gameState?.activePlayerId;
+                const prevPosition = gameState?.players.find(p =>  p.id === activePlayerId)?.position;
+                const nextPosition = nextGameState?.players.find(p => p.id === activePlayerId)?.position;
+
+                if (prevPosition !== null && nextPosition !== null && prevPosition !== nextPosition) {
+                    const prevPositionElement = document.querySelector(`.wizard-positions .card-wrapper:nth-of-type(${prevPosition})`).getBoundingClientRect();
+                    const nextPositionElement = document.querySelector(`.wizard-positions .card-wrapper:nth-of-type(${nextPosition})`).getBoundingClientRect();
+                    const transition = nextPositionElement.left - prevPositionElement.left + (prevPositionElement.width / 2);
+
+                    console.log('transition', transition);
+                    setWizardTransition(transition);
+                }
+            }
+
+            setTimeout(async () => {
+                setGameState(nextGameState);
+                setWizardTransition(null);
+            }, timeout);
         }
 
         const getActions = async () => {
@@ -76,8 +99,15 @@ export function Game(_props: IGameProps): JSX.Element {
         return `${type.color}${type.value}${capitalize(type.suit)}`;
     }
 
-    const renderWizardCard = (orientation: PlayerOrientation) =>  {
-        return <Card cardCode={`wizard${capitalize(orientation)}`} />;
+    const renderWizardCard = (player: IPlayer) =>  {
+        const isActivePlayer = player.id === gameState.activePlayerId;
+
+        return (
+            <Card
+                cardCode={`wizard${capitalize(player.orientation)}`}
+                transition={isActivePlayer ? wizardTransition : null}
+            />
+        );
     }
 
     const selectCard = (card: ICard) => {
@@ -138,9 +168,9 @@ export function Game(_props: IGameProps): JSX.Element {
             <div className={`player-area ${player.orientation} ${isOpponent ? 'opponent' : 'player'}`}>
                 <div className="player-cards">
                     {!isOpponent && renderPlayerLabel(player)}
-                    {!isOpponent && player.position === null && renderWizardCard(player.orientation)}
+                    {!isOpponent && player.position === null && renderWizardCard(player)}
                     {cards.map((card) => renderCard(card, isOpponent))}
-                    {isOpponent && player.position === null && renderWizardCard(player.orientation)}
+                    {isOpponent && player.position === null && renderWizardCard(player)}
                     {isOpponent && renderPlayerLabel(player)}
                 </div>
             </div>
@@ -161,12 +191,12 @@ export function Game(_props: IGameProps): JSX.Element {
         }
     }
 
-    const sendAction = async (action:  IActionPayload) => {
+    const sendAction = async (_: React.MouseEvent<HTMLElement>, action:  IActionPayload) => {
         if (submitting) {
             return;
         }
 
-        setSubmitting(true);
+        setSubmitting(true);;
 
         try {
             await GameResource.sendAction(gameState.id, action);
@@ -200,23 +230,17 @@ export function Game(_props: IGameProps): JSX.Element {
     }
 
     const renderWizardPosition = (player: IPlayer, card: ICard, showActions: boolean = false) => {
-        const cardWidth = continuumWidth * .1;
-        const cardHeight = cardWidth / CARD_WIDTH_TO_HEIGHT_RATIO;
         const cardAction = getCardAction(card);
+        const wizardInPosition = card.index !== null && player.position === card.index;
 
         return (
             <div
                 className={`card-wrapper ${cardAction ? 'is-active' : ''}`}
                 key={`wizard-position-wrapper-${card.id}`}
-                onClick={() => cardAction ? sendAction(cardAction) : null}
+                onClick={(event) => cardAction ? sendAction(event, cardAction) : null}
             >
-                <div
-                    className="wizard-position"
-                    style={{
-                        height: `${cardHeight}px`,
-                    }}
-                >
-                    {card.index !== null && player.position === card.index && renderWizardCard(player.orientation)}
+                <div className="wizard-position">
+                    {wizardInPosition && renderWizardCard(player)}
                 </div>
                 {showActions && cardAction ?
                     renderActionLabel(gameState.phase)
@@ -248,6 +272,8 @@ export function Game(_props: IGameProps): JSX.Element {
     const playerCards = cards.filter(c => c.playerId === player.id) ?? [];
     const opponentCards = cards.filter(c => c.playerId && c.playerId !== opponent.id) ?? [];
     const winner = players.find(p => p.userId === gameState.winnerId);
+    const cardWidth = continuumWidth * .1;
+    const cardHeight = cardWidth / CARD_WIDTH_TO_HEIGHT_RATIO;
 
     continuumCards.unshift(codexCard);
 
@@ -264,13 +290,23 @@ export function Game(_props: IGameProps): JSX.Element {
             </div>
             {renderPlayerArea(opponent, opponentCards, true)}
             <div className="board">
-                <div className="wizard-positions opponent">
+                <div
+                    className="wizard-positions opponent"
+                    style={{
+                        height: `${cardHeight}px`
+                    }}
+                >
                     {continuumCards.map((card) => renderWizardPosition(opponent, card))}
                 </div>
                 <div className="continuum-cards" ref={continuumRef}>
                     {continuumCards.map((card) => renderCard(card))}
                 </div>
-                <div className="wizard-positions player">
+                <div
+                    className="wizard-positions player"
+                    style={{
+                        height: `${cardHeight}px`
+                    }}
+                >
                     {continuumCards.map((card) => renderWizardPosition(player, card, true))}
                 </div>
             </div>

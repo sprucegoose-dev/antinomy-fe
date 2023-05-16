@@ -80,6 +80,15 @@
 
             .wizard-position {
                 display: flex;
+                height: 100%;
+                position: relative;
+
+                .wizard {
+                    position: absolute;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    transition: left 1s;
+                }
 
                 .card-img {
                     max-width: 92%;
@@ -92,10 +101,11 @@
             margin-bottom: 10px;
 
             .card-wrapper {
+                user-select: none;
 
-                .card-img {
-                    transform: scaleY(-1);
-                    align-self: flex-end;
+                .wizard-position {
+                    transform: scale(-1);
+                    // align-self: flex-end;
                 }
             }
         }
