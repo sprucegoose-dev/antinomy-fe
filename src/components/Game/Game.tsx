@@ -32,44 +32,39 @@ export function Game(_props: IGameProps): JSX.Element {
         setContinuumWidth(continuumRef.current?.offsetWidth ?? 0);
     }
 
+    const getGameState = async () => {
+        const response = await GameResource.getState(parseInt(gameId, 10));
+        const state = await response.json();
+        setGameState(state);
+    }
+
+    const getActions = async () => {
+        const response = await GameResource.getActions(parseInt(gameId, 10));
+        setActions(await response.json());
+    }
+
+    const getUpdatedGameState = async (updatedGameState) => {
+        animatePlayerMovement(gameState, updatedGameState);
+        setGameState(updatedGameState);
+        getActions();
+    }
+
+    const animatePlayerMovement = (prevGameState, nextGameState) => {
+        const activePlayerId = prevGameState?.activePlayerId;
+        const prevPosition = prevGameState?.players.find(p =>  p.id === activePlayerId)?.position;
+        const nextPosition = nextGameState?.players.find(p => p.id === activePlayerId)?.position;
+
+        const prevPositionElement = document.querySelector(`.wizard-positions .card-wrapper:nth-of-type(${prevPosition})`).getBoundingClientRect();
+        const nextPositionElement = document.querySelector(`.wizard-positions .card-wrapper:nth-of-type(${nextPosition})`).getBoundingClientRect();
+        const transition = nextPositionElement.left - prevPositionElement.left + (prevPositionElement.width / 2);
+        setWizardTransition(transition);
+
+        setTimeout(async () => {
+            setWizardTransition(null);
+        }, 1000);
+    }
+
     useEffect(() => {
-        const getGameState = async () => {
-            const response = await GameResource.getState(parseInt(gameId, 10));
-            const nextGameState = await response.json();
-            let timeout = 0;
-
-            if (gameState && nextGameState) {
-                timeout = 1000;
-                const activePlayerId = gameState?.activePlayerId;
-                const prevPosition = gameState?.players.find(p =>  p.id === activePlayerId)?.position;
-                const nextPosition = nextGameState?.players.find(p => p.id === activePlayerId)?.position;
-
-                if (prevPosition !== null && nextPosition !== null && prevPosition !== nextPosition) {
-                    const prevPositionElement = document.querySelector(`.wizard-positions .card-wrapper:nth-of-type(${prevPosition})`).getBoundingClientRect();
-                    const nextPositionElement = document.querySelector(`.wizard-positions .card-wrapper:nth-of-type(${nextPosition})`).getBoundingClientRect();
-                    const transition = nextPositionElement.left - prevPositionElement.left + (prevPositionElement.width / 2);
-
-                    console.log('transition', transition);
-                    setWizardTransition(transition);
-                }
-            }
-
-            setTimeout(async () => {
-                setGameState(nextGameState);
-                setWizardTransition(null);
-            }, timeout);
-        }
-
-        const getActions = async () => {
-            const response = await GameResource.getActions(parseInt(gameId, 10));
-            setActions(await response.json());
-        }
-
-        const getUpdatedGameState = async () => {
-            await getGameState();
-            await getActions();
-        }
-
         getGameState();
         getActions();
 
